@@ -4,9 +4,6 @@
 
 // import a from './app.js'
 // console.log(a)
-
-//jsx  it is comninaton of javascript and html
-//virtual dom and real dom diffference
 // var h1=<h1>Hello from jsx</h1>
 
 // function App(){
@@ -17,3 +14,5 @@
 
 //empty tags in react
 //fragemnits
+//jsx  it is comninaton of javascript and html
+//virtual dom and real dom diffference
