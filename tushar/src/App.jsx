@@ -5,6 +5,8 @@ import Sidebar from './Sidebar';
 import Card from './Card';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import AboutUs from './pages/AboutUs';
+import ContactUs from './pages/ContactUs';
 
 const resources = [
   {
@@ -122,6 +124,8 @@ const App = () => {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/about" element={<><Navbar /><AboutUs /></>} />
+        <Route path="/contact" element={<><Navbar /><ContactUs /></>} />
       </Routes>
     </div>
   );
