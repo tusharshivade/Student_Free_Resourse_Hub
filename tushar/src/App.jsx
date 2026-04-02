@@ -12,7 +12,7 @@ const resources = [
     title: 'Certifications',
     description: 'Explore various industry-recognized certifications to boost your career and validate your skills.',
     tags: ['Learning', 'Career'],
-    link: '#',
+    link: 'https://www.coursera.org/courses?query=free&skills=Artificial%20Intelligence',
     categories: ['DevOps', 'Development', 'Cloud', 'UI/UX', 'Data Science', 'Backend Engineer']
   },
   {
