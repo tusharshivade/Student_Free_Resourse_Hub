@@ -8,6 +8,7 @@ import Signup from './pages/Signup';
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import Roadmap from './pages/Roadmap';
+import Footer from './Footer';
 
 const resources = [
   {
@@ -74,18 +75,21 @@ const Dashboard = ({ searchTerm, setSearchTerm, selectedCategory, setSelectedCat
       <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <div className="flex">
         <Sidebar selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
-        <main className="flex-1 p-6 pt-24 md:ml-64 dark:text-gray-100 transition-colors duration-300 min-h-screen">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredResources.map(resource => (
-              <Card
-                key={resource.id}
-                resource={resource}
-                isLiked={likes[resource.id] || false}
-                onLike={() => toggleLike(resource.id)}
-              />
-            ))}
-          </div>
-        </main>
+        <div className="flex-1 flex flex-col md:ml-64 min-h-screen transition-colors duration-300 dark:bg-slate-900 bg-slate-50">
+          <main className="flex-1 p-6 pt-24 dark:text-gray-100">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredResources.map(resource => (
+                <Card
+                  key={resource.id}
+                  resource={resource}
+                  isLiked={likes[resource.id] || false}
+                  onLike={() => toggleLike(resource.id)}
+                />
+              ))}
+            </div>
+          </main>
+          <Footer />
+        </div>
       </div>
     </>
   );
@@ -125,9 +129,9 @@ const App = () => {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/about" element={<><Navbar /><AboutUs /></>} />
-        <Route path="/roadmap" element={<><Navbar /><Roadmap /></>} />
-        <Route path="/contact" element={<><Navbar /><ContactUs /></>} />
+        <Route path="/about" element={<><Navbar /><AboutUs /><Footer /></>} />
+        <Route path="/roadmap" element={<><Navbar /><Roadmap /><Footer /></>} />
+        <Route path="/contact" element={<><Navbar /><ContactUs /><Footer /></>} />
       </Routes>
     </div>
   );

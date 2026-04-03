@@ -26,19 +26,19 @@ const ContactUs = () => {
   return (
     <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900 transition-colors duration-300 flex items-center justify-center">
       <div className="max-w-6xl w-full bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row transition-colors duration-300 border border-slate-100 dark:border-slate-700">
-        
+
         {/* Left Side - Contact Info */}
         <div className="lg:w-2/5 bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-800 p-10 lg:p-12 text-white flex flex-col justify-between relative overflow-hidden">
           {/* Decorative Elements */}
           <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl pointer-events-none"></div>
           <div className="absolute bottom-0 left-0 -mb-16 -ml-16 w-48 h-48 bg-white opacity-10 rounded-full blur-2xl pointer-events-none"></div>
-          
+
           <div className="relative z-10">
             <h2 className="text-4xl font-extrabold mb-4 tracking-tight">Get in Touch</h2>
             <p className="text-indigo-100 mb-10 text-lg">
               We'd love to hear from you. Our friendly team is always here to chat.
             </p>
-            
+
             <div className="space-y-8">
               <div className="flex items-start space-x-4 group">
                 <div className="p-3 bg-white/10 rounded-xl group-hover:bg-white/20 transition-colors">
@@ -47,10 +47,10 @@ const ContactUs = () => {
                 <div>
                   <h4 className="text-lg font-semibold">Chat to us</h4>
                   <p className="text-indigo-200 text-sm mt-1">Our friendly team is here to help.</p>
-                  <p className="mt-2 font-medium text-white hover:text-indigo-200 cursor-pointer transition-colors">hello@studentresource.com</p>
+                  <p className="mt-2 font-medium text-white hover:text-indigo-200 cursor-pointer transition-colors">tusharshivade122@gmail.com</p>
                 </div>
               </div>
-              
+
               <div className="flex items-start space-x-4 group">
                 <div className="p-3 bg-white/10 rounded-xl group-hover:bg-white/20 transition-colors">
                   <MapPin className="w-6 h-6 text-indigo-100" />
@@ -61,7 +61,7 @@ const ContactUs = () => {
                   <p className="mt-2 font-medium text-white">100 Smith Street, Pune, MH</p>
                 </div>
               </div>
-              
+
               <div className="flex items-start space-x-4 group">
                 <div className="p-3 bg-white/10 rounded-xl group-hover:bg-white/20 transition-colors">
                   <Phone className="w-6 h-6 text-indigo-100" />
@@ -69,12 +69,12 @@ const ContactUs = () => {
                 <div>
                   <h4 className="text-lg font-semibold">Phone</h4>
                   <p className="text-indigo-200 text-sm mt-1">Mon-Fri from 8am to 5pm.</p>
-                  <p className="mt-2 font-medium text-white hover:text-indigo-200 cursor-pointer transition-colors">+91 98765 43210</p>
+                  <p className="mt-2 font-medium text-white hover:text-indigo-200 cursor-pointer transition-colors">+91 8624998006</p>
                 </div>
               </div>
             </div>
           </div>
-          
+
           <div className="relative z-10 mt-16 flex space-x-4">
             <a href="#" className="p-2.5 bg-white/10 rounded-lg hover:bg-white/20 hover:-translate-y-1 transform transition-all duration-300">
               <Twitter className="w-5 h-5 text-white" />
@@ -87,11 +87,11 @@ const ContactUs = () => {
             </a>
           </div>
         </div>
-        
+
         {/* Right Side - Form */}
         <div className="lg:w-3/5 p-10 lg:p-14 dark:text-slate-200 bg-white dark:bg-slate-800 relative">
           <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-8 tracking-tight">Send us a Message</h3>
-          
+
           <form className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
@@ -110,7 +110,7 @@ const ContactUs = () => {
                   />
                 </div>
               </div>
-              
+
               <div>
                 <label htmlFor="last_name" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                   Last name
@@ -162,7 +162,7 @@ const ContactUs = () => {
                 />
               </div>
             </div>
-            
+
             <div className="flex items-start mt-4">
               <div className="flex items-center h-5 mt-0.5">
                 <input
