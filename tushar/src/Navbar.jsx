@@ -43,6 +43,9 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
         <Link to="/roadmap" className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">Roadmap</Link>
         <Link to="/about" className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">About Us</Link>
         <Link to="/contact" className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">Contact Us</Link>
+        <Link to="/chat" className="px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-400 font-semibold hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors flex items-center gap-1 shadow-sm">
+          <span>AI Tutor</span><span className="text-sm">✨</span>
+        </Link>
       </div>
 
       <div className="flex items-center space-x-4">

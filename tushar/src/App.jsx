@@ -8,6 +8,7 @@ import Signup from './pages/Signup';
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import Roadmap from './pages/Roadmap';
+import AITutor from './pages/AITutor';
 import Footer from './Footer';
 
 const resources = [
@@ -148,6 +149,7 @@ const App = () => {
         <Route path="/about" element={<><Navbar /><AboutUs /><Footer /></>} />
         <Route path="/roadmap" element={<><Navbar /><Roadmap /><Footer /></>} />
         <Route path="/contact" element={<><Navbar /><ContactUs /><Footer /></>} />
+        <Route path="/chat" element={<><Navbar /><AITutor /><Footer /></>} />
       </Routes>
     </div>
   );
