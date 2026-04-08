@@ -92,9 +92,9 @@ const Dashboard = ({ searchTerm, setSearchTerm, selectedCategory, setSelectedCat
       <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <div className="flex">
         <Sidebar selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
-        <div className="flex-1 flex flex-col md:ml-64 min-h-screen transition-colors duration-300 dark:bg-slate-900 bg-slate-50">
-          <main className="flex-1 p-6 pt-24 dark:text-gray-100">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex-1 flex flex-col md:ml-64 min-h-screen transition-colors duration-300 dark:bg-slate-900 bg-slate-50 w-full overflow-x-hidden">
+          <main className="flex-1 p-4 sm:p-6 pt-24 dark:text-gray-100 w-full max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredResources.map(resource => (
                 <Card
                   key={resource.id}

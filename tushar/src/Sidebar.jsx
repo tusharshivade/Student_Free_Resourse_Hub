@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Filter } from 'lucide-react';
 
 const Sidebar = ({ selectedCategory, setSelectedCategory }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,12 +20,13 @@ const Sidebar = ({ selectedCategory, setSelectedCategory }) => {
 
   return (
     <>
-      {/* Hamburger Menu for Mobile */}
+      {/* Category Toggle for Mobile */}
       <button
         onClick={toggleSidebar}
-        className="md:hidden fixed top-4 left-4 z-20 bg-indigo-700 dark:bg-indigo-600 text-white p-2 rounded-lg transition-colors duration-300"
+        className="md:hidden fixed top-24 left-4 z-40 bg-indigo-600 dark:bg-indigo-500 text-white px-3 py-2 rounded-full shadow-lg transition-transform duration-300 flex items-center gap-2 font-bold text-sm hover:scale-105 active:scale-95"
       >
-        {isOpen ? <X size={24} /> : <Menu size={24} />}
+        {isOpen ? <X size={20} /> : <Filter size={20} />}
+        <span>{isOpen ? 'Close' : 'Categories'}</span>
       </button>
 
       {/* Sidebar */}
