@@ -10,70 +10,214 @@ import ContactUs from './pages/ContactUs';
 import Roadmap from './pages/Roadmap';
 import AITutor from './pages/AITutor';
 import Footer from './Footer';
+import Home from './pages/Home';
 
 const resources = [
+  // ----------- DEVELOPMENT -----------
   {
     id: 1,
-    title: 'Certifications',
-    description: 'Explore various industry-recognized certifications to boost your career and validate your skills.',
-    tags: ['Learning', 'Career'],
-    link: 'https://www.coursera.org/courses?query=free&skills=Artificial%20Intelligence',
-    categories: ['DevOps', 'Development', 'Cloud', 'UI/UX', 'Data Science', 'Backend Engineer', 'Cybersecurity & IT Security', 'Game Development']
+    title: 'freeCodeCamp',
+    description: 'Completely free interactive courses on HTML, CSS, JavaScript, React, and algorithm scripting.',
+    tags: ['Frontend', 'Interactive'],
+    link: 'https://www.freecodecamp.org/',
+    categories: ['Development']
   },
   {
     id: 2,
-    title: 'Games',
-    description: 'Educational games and interactive puzzles to improve your logic and programming skills.',
-    tags: ['Interactive', 'Fun'],
-    link: '#',
-    categories: ['DevOps', 'Development', 'Cloud', 'UI/UX', 'Data Science', 'Backend Engineer', 'Game Development']
+    title: 'MDN Web Docs',
+    description: 'The absolute gold-standard, official documentation for web technologies, managed by Mozilla.',
+    tags: ['Documentation', 'Reference'],
+    link: 'https://developer.mozilla.org/',
+    categories: ['Development']
   },
   {
     id: 3,
-    title: 'AI Tools',
-    description: 'A curated list of Artificial Intelligence tools to improve productivity and automate tasks.',
-    tags: ['AI', 'Productivity'],
-    link: '#',
-    categories: ['DevOps', 'Development', 'Cloud', 'UI/UX', 'Data Science', 'Backend Engineer', 'Cybersecurity & IT Security', 'Game Development']
+    title: 'Frontend Mentor',
+    description: 'Improve your real-world coding skills by building frontend projects based on professional Figma designs.',
+    tags: ['Practice', 'Projects'],
+    link: 'https://www.frontendmentor.io/',
+    categories: ['Development']
   },
+
+  // ----------- DEVOPS -----------
   {
     id: 4,
-    title: 'Notes',
-    description: 'Comprehensive notes and cheatsheets covering various technologies and frameworks.',
-    tags: ['Study', 'Resources'],
-    link: '#',
-    categories: ['DevOps', 'Development', 'Cloud', 'UI/UX', 'Data Science', 'Backend Engineer', 'Cybersecurity & IT Security', 'Game Development']
+    title: 'Docker Curriculum',
+    description: 'A comprehensive, beginner-friendly tutorial for getting started with Docker and containerization.',
+    tags: ['Docker', 'Containers'],
+    link: 'https://docker-curriculum.com/',
+    categories: ['DevOps']
   },
   {
     id: 5,
-    title: 'Practice Sets',
-    description: 'Collection of coding problems, quizzes, and practical exercises for interviews.',
-    tags: ['Practice', 'Interview'],
-    link: '#',
-    categories: ['DevOps', 'Development', 'Cloud', 'UI/UX', 'Data Science', 'Backend Engineer', 'Cybersecurity & IT Security', 'Game Development']
+    title: 'DevOps Roadmap',
+    description: 'A high-level, step-by-step master plan and visual guide to becoming a professional DevOps Engineer.',
+    tags: ['Roadmap', 'Guide'],
+    link: 'https://roadmap.sh/devops',
+    categories: ['DevOps']
   },
   {
     id: 6,
-    title: 'Videos',
-    description: 'Video tutorials and courses specifically tailored for comprehensive understanding.',
-    tags: ['Video', 'Tutorial'],
-    link: '#',
-    categories: ['DevOps', 'Development', 'Cloud', 'UI/UX', 'Data Science', 'Backend Engineer', 'Cybersecurity & IT Security', 'Game Development']
+    title: 'GitHub Actions Documentation',
+    description: 'Learn to automate, customize, and execute your software development workflows directly in your repository.',
+    tags: ['CI/CD', 'Automation'],
+    link: 'https://docs.github.com/en/actions',
+    categories: ['DevOps']
   },
+
+  // ----------- CLOUD -----------
   {
     id: 7,
-    title: 'Cybersecurity Masterclass',
-    description: 'Learn ethical hacking, penetration testing, and network security from scratch.',
-    tags: ['Security', 'Hacking'],
-    link: '#',
-    categories: ['Cybersecurity & IT Security']
+    title: 'AWS Skill Builder',
+    description: 'Over 600+ free digital courses from Amazon Web Services experts to build your professional cloud skills.',
+    tags: ['AWS', 'Courses'],
+    link: 'https://explore.skillbuilder.aws/',
+    categories: ['Cloud']
   },
   {
     id: 8,
-    title: 'Game Development with Unity',
-    description: 'Build robust 2D and 3D worlds using C# and the powerful Unity engine.',
-    tags: ['Unity', 'C#', 'Gaming'],
-    link: '#',
+    title: 'Google Cloud Training',
+    description: 'Free Google Cloud (GCP) training, interactive documentation, and structured hands-on learning labs.',
+    tags: ['GCP', 'Labs'],
+    link: 'https://cloud.google.com/training',
+    categories: ['Cloud']
+  },
+  {
+    id: 9,
+    title: 'Microsoft Learn for Azure',
+    description: 'Master Microsoft Azure fundamentals and advanced architecture directly from Microsoft learning paths.',
+    tags: ['Azure', 'Certification'],
+    link: 'https://learn.microsoft.com/en-us/training/azure/',
+    categories: ['Cloud']
+  },
+
+  // ----------- UI/UX -----------
+  {
+    id: 10,
+    title: 'Laws of UX',
+    description: 'A brilliant collection of best practices and psychological principles that designers can use to build intuitive UIs.',
+    tags: ['Principles', 'Theory'],
+    link: 'https://lawsofux.com/',
+    categories: ['UI/UX']
+  },
+  {
+    id: 11,
+    title: 'Mobbin',
+    description: 'A massive hand-picked collection of the latest mobile and web design patterns from world-class applications.',
+    tags: ['Inspiration', 'Web Design'],
+    link: 'https://mobbin.com/',
+    categories: ['UI/UX']
+  },
+  {
+    id: 12,
+    title: 'Figma Community',
+    description: 'Explore thousands of free UI kits, design systems, plugins, and templates built by the Figma community.',
+    tags: ['Figma', 'Assets'],
+    link: 'https://www.figma.com/community',
+    categories: ['UI/UX']
+  },
+
+  // ----------- DATA SCIENCE -----------
+  {
+    id: 13,
+    title: 'Kaggle',
+    description: 'The premier platform for predictive modelling and analytics competitions, containing thousands of free datasets.',
+    tags: ['Machine Learning', 'Datasets'],
+    link: 'https://www.kaggle.com/',
+    categories: ['Data Science']
+  },
+  {
+    id: 14,
+    title: 'Fast.ai',
+    description: 'Making neural nets uncool again. A remarkably effective, practical, completely free course on Deep Learning.',
+    tags: ['Deep Learning', 'PyTorch'],
+    link: 'https://course.fast.ai/',
+    categories: ['Data Science']
+  },
+  {
+    id: 15,
+    title: 'Pandas Documentation',
+    description: 'Everything you need to know about the most essential Python data analysis and manipulation library.',
+    tags: ['Python', 'Analytics'],
+    link: 'https://pandas.pydata.org/docs/',
+    categories: ['Data Science']
+  },
+
+  // ----------- BACKEND ENGINEER -----------
+  {
+    id: 16,
+    title: 'Backend Roadmap',
+    description: 'A comprehensive, step-by-step master plan to becoming a modern backend systems developer.',
+    tags: ['Architecture', 'Guide'],
+    link: 'https://roadmap.sh/backend',
+    categories: ['Backend Engineer']
+  },
+  {
+    id: 17,
+    title: 'PostgreSQL Tutorial',
+    description: 'Master the world\'s most advanced open source relational database with these fast, practical tutorials.',
+    tags: ['Databases', 'SQL'],
+    link: 'https://www.postgresqltutorial.com/',
+    categories: ['Backend Engineer']
+  },
+  {
+    id: 18,
+    title: 'Designing Data-Intensive Applications',
+    description: '(Book recommendation reference / summary insights) The holy grail book for backend architecture concepts.',
+    tags: ['System Design', 'Theory'],
+    link: 'https://dataintensive.net/',
+    categories: ['Backend Engineer']
+  },
+
+  // ----------- CYBERSECURITY & IT SECURITY -----------
+  {
+    id: 19,
+    title: 'TryHackMe',
+    description: 'Hands-on cyber security training through short, gamified real-world labs perfect for beginners.',
+    tags: ['Hacking', 'Labs'],
+    link: 'https://tryhackme.com/',
+    categories: ['Cybersecurity & IT Security']
+  },
+  {
+    id: 20,
+    title: 'OWASP Top 10',
+    description: 'The standard awareness document representing a broad consensus about the most critical software security risks.',
+    tags: ['Security', 'Web Defenses'],
+    link: 'https://owasp.org/www-project-top-ten/',
+    categories: ['Cybersecurity & IT Security']
+  },
+  {
+    id: 21,
+    title: 'Hack The Box',
+    description: 'A massive hacking playground and cybersecurity training platform globally favored by ethical hackers.',
+    tags: ['PenTesting', 'Challenges'],
+    link: 'https://www.hackthebox.com/',
+    categories: ['Cybersecurity & IT Security']
+  },
+
+  // ----------- GAME DEVELOPMENT -----------
+  {
+    id: 22,
+    title: 'Unity Learn',
+    description: 'Free access to thousands of hours of incredibly high-quality Unity Engine learning content directly from the creators.',
+    tags: ['Unity', 'Courses'],
+    link: 'https://learn.unity.com/',
+    categories: ['Game Development']
+  },
+  {
+    id: 23,
+    title: 'Unreal Engine Documentation',
+    description: 'The definitive guide spanning essential concepts to advanced C++ blueprint programming in Unreal Engine 5.',
+    tags: ['Unreal Engine', 'C++'],
+    link: 'https://docs.unrealengine.com/',
+    categories: ['Game Development']
+  },
+  {
+    id: 24,
+    title: 'GameLvl',
+    description: 'Find inspiration and reference points for game UI, level design, and mechanics from hundreds of analyzed titles.',
+    tags: ['Game Design', 'Inspiration'],
+    link: 'https://interfaceingame.com/', // Substituted an equivalent UI resource
     categories: ['Game Development']
   }
 ];
@@ -93,7 +237,7 @@ const Dashboard = ({ searchTerm, setSearchTerm, selectedCategory, setSelectedCat
       <div className="flex">
         <Sidebar selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
         <div className="flex-1 flex flex-col md:ml-64 min-h-screen transition-colors duration-300 dark:bg-slate-900 bg-slate-50 w-full overflow-x-hidden">
-          <main className="flex-1 p-4 sm:p-6 pt-24 dark:text-gray-100 w-full max-w-7xl mx-auto">
+          <main className="flex-1 px-4 pb-4 sm:px-6 sm:pb-6 pt-24 sm:pt-28 dark:text-gray-100 w-full max-w-7xl mx-auto">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredResources.map(resource => (
                 <Card
@@ -129,10 +273,11 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen border-t-0 p-0 m-0"> {/* Wrapper to avoid margin/padding bugs on app root */}
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route 
-          path="/" 
+          path="/dashboard" 
           element={
             <Dashboard 
               searchTerm={searchTerm} 

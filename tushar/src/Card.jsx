@@ -112,10 +112,10 @@ const Card = ({ resource, isLiked, onLike }) => {
   ) : null;
 
   return (
-    <div className="group relative bg-white dark:bg-slate-800 rounded-xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-gray-100 dark:border-slate-700 overflow-hidden flex flex-col h-full">
+    <div className="group relative bg-white dark:bg-slate-800 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-indigo-100 dark:border-indigo-500/20 border-t-4 border-t-indigo-500 dark:border-t-indigo-400 overflow-hidden flex flex-col h-full min-h-[300px]">
       <div className="p-6 flex flex-col flex-grow relative z-10">
-        {/* Decorative gradient blur background on hover */}
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/50 to-emerald-50/50 dark:from-indigo-900/20 dark:to-emerald-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl -z-10 pointer-events-none"></div>
+        {/* Decorative gradient blur background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/30 to-emerald-50/30 dark:from-indigo-900/10 dark:to-emerald-900/10 group-hover:from-indigo-100/50 group-hover:to-emerald-100/50 transition-colors duration-500 rounded-xl -z-10 pointer-events-none"></div>
         
         <h3 className="text-xl font-bold mb-2 text-gray-800 dark:text-gray-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
           {resource.title}

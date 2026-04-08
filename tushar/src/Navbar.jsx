@@ -41,11 +41,12 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
       
       <div className="hidden md:flex items-center space-x-6">
         <Link to="/" className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">Home</Link>
+        <Link to="/dashboard" className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">Resources</Link>
         <Link to="/roadmap" className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">Roadmap</Link>
         <Link to="/about" className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">About Us</Link>
         <Link to="/contact" className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">Contact Us</Link>
         <Link to="/chat" className="px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-400 font-semibold hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors flex items-center gap-1 shadow-sm">
-          <span>AI Tutor</span><span className="text-sm">✨</span>
+          <span>AICHAT</span><span className="text-sm">✨</span>
         </Link>
       </div>
 
@@ -104,11 +105,12 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
             </div>
             
             <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium py-2 border-b border-gray-100 dark:border-slate-700">Home</Link>
+            <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium py-2 border-b border-gray-100 dark:border-slate-700">Resources</Link>
             <Link to="/roadmap" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium py-2 border-b border-gray-100 dark:border-slate-700">Roadmap</Link>
             <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium py-2 border-b border-gray-100 dark:border-slate-700">About Us</Link>
             <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium py-2 border-b border-gray-100 dark:border-slate-700">Contact Us</Link>
             <Link to="/chat" onClick={() => setIsMobileMenuOpen(false)} className="w-max px-4 py-2 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-400 font-semibold hover:bg-indigo-200 dark:hover:bg-indigo-800 flex items-center gap-2 shadow-sm mt-2">
-              <span>AI Tutor</span><span>✨</span>
+              <span>AICHAT</span><span>✨</span>
             </Link>
           </div>
         </div>
