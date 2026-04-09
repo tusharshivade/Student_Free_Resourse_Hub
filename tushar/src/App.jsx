@@ -11,6 +11,8 @@ import Roadmap from './pages/Roadmap';
 import AITutor from './pages/AITutor';
 import Footer from './Footer';
 import Home from './pages/Home';
+import Profile from './pages/Profile';
+import { AuthProvider } from './context/AuthContext';
 
 const resources = [
   // ----------- DEVELOPMENT -----------
@@ -273,8 +275,9 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen border-t-0 p-0 m-0"> {/* Wrapper to avoid margin/padding bugs on app root */}
-      <Routes>
+    <AuthProvider>
+      <div className="min-h-screen border-t-0 p-0 m-0"> {/* Wrapper to avoid margin/padding bugs on app root */}
+        <Routes>
         <Route path="/" element={<Home />} />
         <Route 
           path="/dashboard" 
@@ -291,12 +294,14 @@ const App = () => {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/profile" element={<><Navbar /><Profile /><Footer /></>} />
         <Route path="/about" element={<><Navbar /><AboutUs /><Footer /></>} />
         <Route path="/roadmap" element={<><Navbar /><Roadmap /><Footer /></>} />
         <Route path="/contact" element={<><Navbar /><ContactUs /><Footer /></>} />
         <Route path="/chat" element={<><Navbar /><AITutor /><Footer /></>} />
       </Routes>
-    </div>
+      </div>
+    </AuthProvider>
   );
 };
 
