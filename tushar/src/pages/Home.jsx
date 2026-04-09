@@ -2,9 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
+import { User, Mail, Calendar, Code } from 'lucide-react';
 import heroImage from '../assets/hero_student_tech.png';
 
 const Home = () => {
+
   return (
     <>
       <Navbar />

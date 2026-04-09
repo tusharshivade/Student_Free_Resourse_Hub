@@ -14,42 +14,23 @@ const Profile = () => {
   return (
     <div className="min-h-screen flex bg-slate-50 dark:bg-slate-900 transition-colors duration-300 pt-[72px]">
       
-      {/* Left Pane - Dashboard Introduction (Hidden on mobile) */}
-      <div className="hidden lg:flex w-1/2 relative bg-gradient-to-br from-indigo-900 via-purple-900 to-[#F13E93] overflow-hidden">
-        {/* Abstract Background Design */}
-        <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#F13E93] rounded-full mix-blend-screen filter blur-[100px] opacity-40 animate-blob"></div>
-          <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-8 left-1/3 w-96 h-96 bg-indigo-500 rounded-full mix-blend-screen filter blur-[100px] opacity-40 animate-blob animation-delay-4000"></div>
-        </div>
-        
-        <div className="relative z-10 p-12 flex flex-col justify-center w-full h-full max-w-xl mx-auto">
-          <div className="mb-8">
-             <div className="inline-flex items-center gap-2 p-2 px-4 bg-white/10 backdrop-blur-md rounded-full text-white font-medium text-sm border border-white/20">
-               ✨ Your Workspace
-             </div>
+      {/* Left Pane - Simple Card (Hidden on mobile) */}
+      <div className="hidden lg:flex w-1/2 items-center justify-center p-8 bg-slate-50 dark:bg-slate-900">
+        <div className="w-full max-w-md bg-white dark:bg-slate-800 rounded-3xl shadow-2xl border border-gray-100 dark:border-slate-700 p-10 text-center transition-transform hover:-translate-y-2 duration-300">
+          <div className="w-20 h-20 bg-[#21d2bd]/10 dark:bg-[#21d2bd]/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+            <BookOpen size={36} className="text-[#1db8a5] dark:text-[#21d2bd]" />
           </div>
-          
-          <h1 className="text-5xl font-extrabold text-white mb-6 leading-tight">
-            Your Personal <br/> Dashboard.
-          </h1>
-          <p className="text-white/80 text-lg mb-8 leading-relaxed">
-            Manage your account settings, view your saved educational resources, and track your recent activity all in one centralized hub.
+          <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-4">Quick Links</h2>
+          <p className="text-gray-500 dark:text-gray-400 mb-8 leading-relaxed">
+            Manage your account, track resources, and configure your learning preferences from your personal dashboard.
           </p>
-          
-          <div className="space-y-4">
-            <div className="flex items-center gap-3 text-white/90">
-              <CheckCircle2 size={24} className="text-[#F13E93]" />
-              <span className="font-medium text-lg">Access saved premium resources</span>
-            </div>
-            <div className="flex items-center gap-3 text-white/90">
-              <CheckCircle2 size={24} className="text-[#F13E93]" />
-              <span className="font-medium text-lg">Track your learning progress</span>
-            </div>
-            <div className="flex items-center gap-3 text-white/90">
-              <CheckCircle2 size={24} className="text-[#F13E93]" />
-              <span className="font-medium text-lg">Manage account details</span>
-            </div>
+          <div className="flex flex-col gap-3">
+             <button className="w-full py-3 px-4 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-white rounded-xl font-semibold transition-colors flex items-center justify-center gap-2">
+               <Calendar size={18} /> View Schedule
+             </button>
+             <button className="w-full py-3 px-4 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-white rounded-xl font-semibold transition-colors flex items-center justify-center gap-2">
+               <Clock size={18} /> Recent Activity
+             </button>
           </div>
         </div>
       </div>

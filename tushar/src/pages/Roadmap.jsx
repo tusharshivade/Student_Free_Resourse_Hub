@@ -4,7 +4,7 @@ import {
   Globe, Layout, Code, Zap, Layers, CheckSquare,
   Terminal, Cpu, Database, Server, Share2, Shield, MessageSquare,
   Box, Code2, CloudRain, Activity, Cloud, Lock, FileText, Maximize,
-  PenTool, Users, Monitor, Eye, Calculator, BarChart, PieChart, Brain, Rocket
+  PenTool, Users, Monitor, Eye, Calculator, BarChart, PieChart, Brain, Rocket, Download
 } from 'lucide-react';
 
 const roadmapsData = {
@@ -120,10 +120,10 @@ const Roadmap = () => {
     <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16 relative">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-32 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-32 bg-orange-500/20 rounded-full blur-3xl pointer-events-none"></div>
           <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 dark:text-white flex items-center justify-center gap-4 relative z-10 tracking-tight">
-            <span className="p-3 bg-indigo-100 dark:bg-indigo-900/40 rounded-2xl">
-              <Map className="w-10 h-10 md:w-14 md:h-14 text-indigo-600 dark:text-indigo-400" />
+            <span className="p-3 bg-orange-100 dark:bg-orange-900/40 rounded-2xl">
+              <Map className="w-10 h-10 md:w-14 md:h-14 text-orange-600 dark:text-orange-400" />
             </span>
             Learning Roadmaps
           </h1>
@@ -152,12 +152,12 @@ const Roadmap = () => {
         {/* Roadmap Timeline Area */}
         <div className="bg-white dark:bg-slate-800 rounded-[2.5rem] shadow-2xl p-6 sm:p-10 lg:p-16 transition-colors duration-300 border border-slate-100 dark:border-slate-700 relative overflow-hidden">
           {/* Decorative background gradients */}
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
-          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-3xl -translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-500/5 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
+          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-red-500/5 rounded-full blur-3xl -translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
 
           <div className="relative z-10">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-white mb-16 text-center flex flex-col justify-center items-center gap-3">
-              <span className="bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
                 {selectedCategory}
               </span>
               <span className="text-xl md:text-2xl font-medium text-slate-500 dark:text-slate-400">Basic to Advanced Mastery Path</span>
@@ -180,7 +180,7 @@ const Roadmap = () => {
                       <div className={`hidden lg:flex absolute left-1/2 transform -translate-x-1/2 w-16 h-16 rounded-full items-center justify-center shadow-2xl z-20 transition-all duration-500 cursor-pointer 
                         ${isCompleted 
                           ? 'bg-gradient-to-br from-green-400 to-emerald-600 border-4 border-emerald-100 dark:border-slate-800 scale-110 shadow-emerald-500/40' 
-                          : 'bg-white dark:bg-slate-800 border-4 border-indigo-100 dark:border-slate-600 hover:border-indigo-300 dark:hover:border-indigo-500'}`}
+                          : 'bg-white dark:bg-slate-800 border-4 border-orange-100 dark:border-slate-600 hover:border-orange-300 dark:hover:border-orange-500'}`}
                         onClick={() => toggleProgress(index)}
                       >
                          {isCompleted ? (
@@ -197,17 +197,17 @@ const Roadmap = () => {
                           className={`w-full bg-white dark:bg-slate-800/80 p-6 sm:p-8 rounded-[2rem] border-2 transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden backdrop-blur-sm shadow-xl
                           ${isCompleted 
                             ? 'border-emerald-400/50 shadow-emerald-500/10' 
-                            : 'border-slate-100 dark:border-slate-700 hover:shadow-indigo-500/20 hover:border-indigo-200 dark:hover:border-indigo-500/50'}`}
+                            : 'border-slate-100 dark:border-slate-700 hover:shadow-orange-500/20 hover:border-orange-200 dark:hover:border-orange-500/50'}`}
                         >
                           {/* Inner soft gradient highlight */}
-                          <div className={`absolute top-0 left-0 w-full h-1.5 transition-colors duration-300 ${isCompleted ? 'bg-emerald-400' : 'bg-gradient-to-r from-indigo-500 to-purple-500'}`}></div>
+                          <div className={`absolute top-0 left-0 w-full h-1.5 transition-colors duration-300 ${isCompleted ? 'bg-emerald-400' : 'bg-gradient-to-r from-orange-500 to-red-500'}`}></div>
 
                           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 mb-5 relative z-10">
                             {/* Inner Card Icon */}
                             <div className={`p-4 rounded-2xl shadow-inner transition-colors duration-300 flex-shrink-0
                               ${isCompleted 
                                 ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' 
-                                : 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white'}`}>
+                                : 'bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 group-hover:bg-orange-600 group-hover:text-white'}`}>
                               <Icon className="w-8 h-8" />
                             </div>
                             
@@ -234,8 +234,8 @@ const Roadmap = () => {
                               <span key={ptIdx} className={`px-3 py-1.5 text-sm font-semibold rounded-lg flex items-center gap-1.5 transition-colors duration-300
                                 ${isCompleted 
                                   ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300' 
-                                  : 'bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/20 group-hover:text-indigo-700 dark:group-hover:text-indigo-300'}`}>
-                                <div className={`w-1.5 h-1.5 rounded-full ${isCompleted ? 'bg-emerald-400' : 'bg-indigo-400'}`}></div>
+                                  : 'bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 group-hover:bg-orange-50 dark:group-hover:bg-orange-900/20 group-hover:text-orange-700 dark:group-hover:text-orange-300'}`}>
+                                <div className={`w-1.5 h-1.5 rounded-full ${isCompleted ? 'bg-emerald-400' : 'bg-orange-400'}`}></div>
                                 {point}
                               </span>
                             ))}
@@ -247,15 +247,27 @@ const Roadmap = () => {
                               className={`flex items-center gap-2 text-sm font-bold transition-colors ${
                                 isCompleted 
                                   ? 'text-emerald-600 dark:text-emerald-400 hover:text-emerald-700' 
-                                  : 'text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400'
+                                  : 'text-slate-500 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-400'
                               }`}
                             >
                               <CheckCircle className={`w-5 h-5 ${isCompleted ? 'fill-emerald-100 dark:fill-emerald-900/30' : ''}`} /> 
                               {isCompleted ? 'Completed' : 'Mark Complete'}
                             </button>
-                            <span className="flex items-center text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:translate-x-1 transition-transform cursor-pointer">
-                              Resources <ChevronRight className="w-5 h-5 ml-1" />
-                            </span>
+                            <div className="flex items-center gap-3">
+                              <a 
+                                href="/roadmap-guide.pdf" 
+                                download 
+                                className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md shadow-orange-500/20 transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+                                title={`Download Data PDF for ${step.title}`}
+                              >
+                                <Download size={16} />
+                                <span className="hidden sm:inline">Data PDF</span>
+                                <span className="sm:hidden">PDF</span>
+                              </a>
+                              <span className="flex items-center text-sm font-bold text-orange-600 dark:text-orange-400 hover:translate-x-1 transition-transform cursor-pointer">
+                                Resources <ChevronRight className="w-5 h-5 ml-1" />
+                              </span>
+                            </div>
                           </div>
 
                         </div>

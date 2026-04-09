@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react';
-import { Search, User, GraduationCap, Moon, Sun, Bell, Menu, X } from 'lucide-react';
+import { Search, User, GraduationCap, Moon, Sun, Bell, Menu, X, Mail, Calendar, Code } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 
 const Navbar = ({ searchTerm, setSearchTerm }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileCardOpen, setIsProfileCardOpen] = useState(false);
   const { currentUser, logout } = useAuth();
+
+  const displayName = currentUser ? currentUser.name : "";
+  const displayEmail = currentUser ? currentUser.email : "";
+  const displayRole = currentUser ? `${currentUser.accountType || 'Student'} Account` : "";
+  const joinDate = currentUser ? new Date(currentUser.joinDate).toLocaleDateString() : "";
 
   useEffect(() => {
     // Check initial layout theme
@@ -38,7 +44,7 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
     <nav className="bg-white dark:bg-slate-800 shadow-md p-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50 transition-colors duration-300">
       <div className="flex items-center gap-2">
         <GraduationCap className="text-indigo-700 dark:text-indigo-400" size={28} />
-        <Link to="/" className="text-lg sm:text-2xl font-bold text-indigo-700 dark:text-indigo-400 line-clamp-1">Student Sesource Hub</Link>
+        <Link to="/" className="text-lg sm:text-2xl font-bold text-indigo-700 dark:text-indigo-400 line-clamp-1">Student Resource Hub</Link>
       </div>
 
       <div className="hidden md:flex items-center space-x-6">
@@ -78,12 +84,75 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
         </button>
 
         {currentUser ? (
-          <div className="flex items-center gap-3 relative group cursor-pointer">
-            <Link to="/profile" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-700 dark:text-indigo-400 font-bold border border-indigo-200 dark:border-indigo-800" title={currentUser.name}>
+          <div className="flex items-center gap-3 relative cursor-pointer" onClick={() => setIsProfileCardOpen(!isProfileCardOpen)}>
+              <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-700 dark:text-indigo-400 font-bold border border-indigo-200 dark:border-indigo-800 transition-transform hover:scale-105" title={currentUser.name}>
                 {currentUser.name.charAt(0).toUpperCase()}
               </div>
-            </Link>
+
+              {/* Profile Card Dropdown */}
+              {isProfileCardOpen && (
+                <div className="absolute top-12 right-0 w-[320px] sm:w-[350px] bg-white dark:bg-slate-800/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-100 dark:border-slate-700/50 overflow-hidden z-50 transform origin-top-right transition-all animate-in fade-in slide-in-from-top-4 duration-300">
+                  {/* Card Header Background */}
+                  <div className="h-24 bg-gradient-to-br from-[#21d2bd] via-[#1db8a5] to-[#9d7cf6] relative overflow-hidden">
+                    <div className="absolute inset-0 bg-white/10 dark:bg-black/10 mix-blend-overlay"></div>
+                    <div className="absolute top-0 right-0 p-3">
+                      <div className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-white text-[10px] font-bold border border-white/30 shadow-sm flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+                        ONLINE
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Card Body */}
+                  <div className="px-6 pb-6 relative text-left">
+                    <div className="flex justify-between items-end -mt-10 mb-4">
+                      <div className="relative group">
+                        <div className="w-20 h-20 bg-white dark:bg-slate-800 rounded-full p-1.5 shadow-xl relative z-10 transition-transform duration-300 group-hover:scale-105">
+                          <div className="w-full h-full bg-gradient-to-tr from-[#21d2bd]/20 to-[#9d7cf6]/20 dark:from-[#21d2bd]/30 dark:to-[#9d7cf6]/30 rounded-full flex items-center justify-center overflow-hidden">
+                            <User className="text-[#1db8a5] dark:text-[#21d2bd]" size={36} />
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex gap-2">
+                        <Link to="/profile" className="mb-1 p-2 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl text-slate-600 dark:text-slate-300 transition-colors shadow-sm" title="Settings/Profile">
+                          <Code size={18} />
+                        </Link>
+                        <button onClick={(e) => { e.stopPropagation(); logout(); setIsProfileCardOpen(false); }} className="mb-1 p-2 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/40 rounded-xl text-red-500 transition-colors shadow-sm" title="Sign Out">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="mb-4">
+                      <h2 className="text-xl font-extrabold text-slate-900 dark:text-white leading-tight">{displayName}</h2>
+                      <p className="text-[#1db8a5] dark:text-[#21d2bd] font-semibold text-xs mt-0.5 mb-2 capitalize">{displayRole}</p>
+                    </div>
+
+                    {/* Stats Grid */}
+                    <div className="grid grid-cols-1 gap-2 pt-3 border-t border-slate-100 dark:border-slate-700/50">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg text-indigo-500 dark:text-indigo-400">
+                          <Mail size={14} />
+                        </div>
+                        <div className="overflow-hidden">
+                          <p className="text-[10px] uppercase tracking-wider text-slate-400 font-bold leading-none mb-0.5">Email</p>
+                          <p className="text-sm text-slate-900 dark:text-white font-semibold truncate w-full leading-none" title={displayEmail}>{displayEmail}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-fuchsia-50 dark:bg-fuchsia-900/30 rounded-lg text-fuchsia-500 dark:text-fuchsia-400">
+                          <Calendar size={14} />
+                        </div>
+                        <div>
+                          <p className="text-[10px] uppercase tracking-wider text-slate-400 font-bold leading-none mb-0.5">Joined</p>
+                          <p className="text-sm text-slate-900 dark:text-white font-semibold leading-none">{joinDate}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
           </div>
         ) : (
           <Link to="/login">
