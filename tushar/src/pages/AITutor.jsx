@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Loader2 } from 'lucide-react';
+import { Send, Bot, User, Loader2, Image as ImageIcon, X } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { GoogleGenAI } from '@google/genai';
 
 const SYSTEM_INSTRUCTION = `You are an incredibly helpful, friendly, and expert computer science tutor for the Student Resource Hub. 
 Your goal is to help students understand programming, computer science concepts, tools, and certifications. 
 Always provide clear, easily readable explanations. Provide short code examples when helpful. 
-Use Markdown to format your response beautifully. Be encouraging!`;
+Use Markdown to format your response beautifully. Be encouraging!
+If the user uploads an architecture diagram or photo, analyze it carefully and give great feedback or brainstorming ideas!`;
 
 const MarkdownComponents = {
   pre: ({ children }) => <>{children}</>,
@@ -35,14 +36,14 @@ const MarkdownComponents = {
 };
 
 const AITutor = () => {
-  const [messages, setMessages] = useState([
-    { role: 'model', content: "Hello! I'm your AI Study Buddy. Ask me anything about programming, tech, or your coursework!" }
-  ]);
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
   const messagesEndRef = useRef(null);
-
+  const fileInputRef = useRef(null);
+  
   // Create a ref to store the chat session so it persists across renders
   const chatSessionRef = useRef(null);
 
@@ -54,8 +55,33 @@ const AITutor = () => {
     scrollToBottom();
   }, [messages]);
 
+  // Load chat history from SQLite Server
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/messages');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.messages && data.messages.length > 0) {
+            setMessages(data.messages.map(m => ({ 
+               role: m.role, 
+               content: m.content, 
+               imageUrl: m.imageUrl 
+            })));
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn("Backend not running or first start", err);
+      }
+      setMessages([
+        { role: 'model', content: "Hello! I'm your AI Study Buddy. Upload an architecture diagram or share a project idea to broadcast to the room!" }
+      ]);
+    };
+    fetchMessages();
+  }, []);
+
   const initChat = () => {
-    
     if (!chatSessionRef.current) {
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
       if (!apiKey) {
@@ -81,35 +107,102 @@ const AITutor = () => {
     return true;
   };
 
+  const handleFileSelect = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedFile(e.target.files[0]);
+    }
+  };
+
+  const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
   const handleSend = async (e) => {
     e.preventDefault();
-    if (!input.trim() || isLoading) return;
+    if ((!input.trim() && !selectedFile) || isLoading) return;
 
-    // Check initialization
     if (!initChat()) return;
 
     const userMessage = input.trim();
+    const fileToSend = selectedFile;
+
     setInput('');
+    setSelectedFile(null);
+    if(fileInputRef.current) fileInputRef.current.value = "";
     setError('');
 
-    // Add user message to UI state and an empty placeholder for the AI response
-    setMessages(prev => [
-      ...prev, 
-      { role: 'user', content: userMessage },
-      { role: 'model', content: '', isTyping: true }
-    ]);
+    let uploadedImageUrl = null;
+    let geminiPart = { text: userMessage };
+
     setIsLoading(true);
 
+    // 1. Local Preview UI immediately
+    setMessages(prev => [
+      ...prev, 
+      { role: 'user', content: userMessage, imageUrl: fileToSend ? URL.createObjectURL(fileToSend) : null },
+      { role: 'model', content: '', isTyping: true }
+    ]);
+
     try {
-      // Send the message using the SDK stream
-      const responseStream = await chatSessionRef.current.sendMessageStream({ message: userMessage });
+      // 2. Upload image to backend if exists
+      if (fileToSend) {
+        const formData = new FormData();
+        formData.append('image', fileToSend);
+        
+        try {
+          const uploadRes = await fetch('http://localhost:5000/api/upload', {
+            method: 'POST',
+            body: formData
+          });
+          const uploadData = await uploadRes.json();
+          uploadedImageUrl = uploadData.imageUrl;
+          
+          // Prepare base64 for Gemini payload. GenAI accepts array of objects for multi-modal.
+          const base64Str = await fileToBase64(fileToSend);
+          geminiPart = [
+            { text: userMessage || "Please describe this architecture diagram." },
+            { inlineData: { data: base64Str.split(',')[1], mimeType: fileToSend.type } }
+          ];
+
+        } catch (uploadErr) {
+          console.error("Upload error", uploadErr);
+          throw new Error("Failed to upload image to the sharing server.");
+        }
+      } else {
+         // Generic text query
+         geminiPart = { text: userMessage };
+      }
+
+      // 3. Save User Message to Backend (To Sync with Room)
+      try {
+        await fetch('http://localhost:5000/api/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ role: 'user', content: userMessage, imageUrl: uploadedImageUrl })
+        });
+      } catch(err) { console.error("Could not sync to room", err); }
+
+      // Update real uploaded image url in UI
+      setMessages(prev => {
+        const newMessages = [...prev];
+        const userMsgIndex = newMessages.length - 2;
+        if(newMessages[userMsgIndex]) newMessages[userMsgIndex].imageUrl = uploadedImageUrl || newMessages[userMsgIndex].imageUrl;
+        return newMessages;
+      });
+
+      // 4. Get response from Gemini
+      const responseStream = await chatSessionRef.current.sendMessageStream({ message: geminiPart });
       
       let fullText = '';
       for await (const chunk of responseStream) {
         fullText += chunk.text;
         setMessages(prev => {
           const newMessages = [...prev];
-          // Update the last message (the AI placeholder)
           newMessages[newMessages.length - 1] = {
             ...newMessages[newMessages.length - 1],
             content: fullText
@@ -118,7 +211,16 @@ const AITutor = () => {
         });
       }
       
-      // After stream completes, remove the isTyping flag
+      // 5. Save AI's response to Backend synced room
+      try {
+        await fetch('http://localhost:5000/api/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ role: 'model', content: fullText, imageUrl: null })
+        });
+      } catch(err) { /* ignore sync failure */ }
+
+      // Finish typing
       setMessages(prev => {
         const newMessages = [...prev];
         newMessages[newMessages.length - 1] = {
@@ -129,9 +231,9 @@ const AITutor = () => {
       });
 
     } catch (err) {
-      console.error("AI Error:", err);
-      setError("I'm sorry, I encountered an error connecting to the AI. " + err.message);
-      // Remove the empty message if it failed before anything was streamed
+      console.error("Task Error:", err);
+      setError(err.message || "An Error occurred.");
+      // Remove typing bubble
       setMessages(prev => prev.filter((msg, idx) => !(idx === prev.length - 1 && msg.content === '')));
     } finally {
       setIsLoading(false);
@@ -150,7 +252,8 @@ const AITutor = () => {
               <Bot className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">AI Study Buddy</h2>
+              <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">Project Idea Room</h2>
+              <p className="text-xs text-slate-500">Live persistence connected.</p>
             </div>
           </div>
         </div>
@@ -176,7 +279,14 @@ const AITutor = () => {
                 {/* Content */}
                 <div className="flex-1 min-w-0">
                   {msg.role === 'user' ? (
-                     <p className="text-[16px] text-slate-800 dark:text-slate-100 leading-relaxed whitespace-pre-wrap pt-1">{msg.content}</p>
+                     <div className="pt-1">
+                       {msg.imageUrl && (
+                          <div className="pt-2 pb-4">
+                            <img src={msg.imageUrl} alt="Shared Architecture" className="max-w-xs md:max-w-md rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm object-cover" />
+                          </div>
+                       )}
+                       {msg.content && <p className="text-[16px] text-slate-800 dark:text-slate-100 leading-relaxed whitespace-pre-wrap">{msg.content}</p>}
+                     </div>
                   ) : (
                      <div className="prose prose-slate dark:prose-invert max-w-none prose-p:leading-relaxed break-words pt-1">
                        <ReactMarkdown components={MarkdownComponents}>{msg.content}</ReactMarkdown>
@@ -208,36 +318,70 @@ const AITutor = () => {
 
         {/* Input Form */}
         <div className="p-4 bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700">
+          
+          {selectedFile && (
+            <div className="max-w-4xl mx-auto mb-3">
+              <div className="relative inline-block bg-slate-100 dark:bg-slate-700 p-2 rounded-lg border border-slate-300 dark:border-slate-600">
+                <img src={URL.createObjectURL(selectedFile)} alt="preview" className="h-16 w-16 object-cover rounded shadow-sm" />
+                <button 
+                   onClick={() => setSelectedFile(null)}
+                   className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-0.5 hover:bg-red-600 transition-colors"
+                >
+                   <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          )}
+
           <form onSubmit={handleSend} className="max-w-4xl mx-auto flex items-end relative">
-            <textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend(e);
-                }
-              }}
-              placeholder="Message AI Study Buddy..."
-              className="w-full resize-none rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-4 py-3 pr-12 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-slate-400 focus:border-slate-400 shadow-sm transition-all overflow-hidden"
-              rows={1}
-              style={{ minHeight: '48px', maxHeight: '160px' }}
-              onInput={(e) => {
-                e.target.style.height = 'auto';
-                e.target.style.height = Math.min(e.target.scrollHeight, 160) + 'px';
-              }}
-            />
-            <button
-              type="submit"
-              disabled={!input.trim() || isLoading}
-              className="absolute right-2 bottom-2 p-1.5 rounded-lg bg-black dark:bg-white text-white dark:text-black hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-              aria-label="Send message"
-            >
-              <Send className="w-5 h-5" />
-            </button>
+            <div className="flex-1 flex items-end relative bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl shadow-sm overflow-hidden focus-within:ring-1 focus-within:ring-slate-400 focus-within:border-slate-400 transition-all">
+              
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="p-3 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 self-end transition-colors mb-0.5"
+                aria-label="Attach image"
+              >
+                <ImageIcon className="w-5 h-5" />
+              </button>
+              <input 
+                type="file" 
+                ref={fileInputRef} 
+                onChange={handleFileSelect} 
+                accept="image/*" 
+                className="hidden" 
+              />
+
+              <textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend(e);
+                  }
+                }}
+                placeholder="Message AI Study Buddy or share a project architecture diagram..."
+                className="flex-1 resize-none bg-transparent py-3 pr-12 text-slate-800 dark:text-slate-100 focus:outline-none"
+                rows={1}
+                style={{ minHeight: '48px', maxHeight: '160px' }}
+                onInput={(e) => {
+                  e.target.style.height = 'auto';
+                  e.target.style.height = Math.min(e.target.scrollHeight, 160) + 'px';
+                }}
+              />
+              <button
+                type="submit"
+                disabled={(!input.trim() && !selectedFile) || isLoading}
+                className="absolute right-2 bottom-2 p-1.5 rounded-lg bg-black dark:bg-white text-white dark:text-black hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                aria-label="Send message"
+              >
+                <Send className="w-5 h-5" />
+              </button>
+            </div>
           </form>
           <div className="text-center mt-2">
-            <span className="text-xs text-slate-500 dark:text-slate-400">AI can make mistakes. Consider verifying important information.</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400">Project Ideas shared here are persisted across sessions on standard localhost:5000.</span>
           </div>
         </div>
       </div>
