@@ -10,6 +10,8 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
   const { currentUser, logout } = useAuth();
   const location = useLocation();
 
+  const isActive = (path) => location.pathname === path;
+
   const getPlaceholder = () => {
     if (location.pathname === '/roadmap') return 'Search roadmaps...';
     if (location.pathname === '/dashboard') return 'Search resources...';
@@ -55,12 +57,27 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
       </div>
 
       <div className="hidden md:flex items-center space-x-6">
-        <Link to="/" className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">Home</Link>
-        <Link to="/dashboard" className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">Resources</Link>
-        <Link to="/roadmap" className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">Roadmap</Link>
-        <Link to="/about" className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">About Us</Link>
-        <Link to="/contact" className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">Contact Us</Link>
-        <Link to="/chat" className="px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-400 font-semibold hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors flex items-center gap-1 shadow-sm">
+        <Link to="/" className={`relative py-1 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors ${isActive('/') ? 'text-indigo-700 dark:text-indigo-400' : ''}`}>
+          Home
+          {isActive('/') && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>}
+        </Link>
+        <Link to="/dashboard" className={`relative py-1 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors ${isActive('/dashboard') ? 'text-indigo-700 dark:text-indigo-400' : ''}`}>
+          Resources
+          {isActive('/dashboard') && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>}
+        </Link>
+        <Link to="/roadmap" className={`relative py-1 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors ${isActive('/roadmap') ? 'text-indigo-700 dark:text-indigo-400' : ''}`}>
+          Roadmap
+          {isActive('/roadmap') && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>}
+        </Link>
+        <Link to="/about" className={`relative py-1 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors ${isActive('/about') ? 'text-indigo-700 dark:text-indigo-400' : ''}`}>
+          About Us
+          {isActive('/about') && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>}
+        </Link>
+        <Link to="/contact" className={`relative py-1 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors ${isActive('/contact') ? 'text-indigo-700 dark:text-indigo-400' : ''}`}>
+          Contact Us
+          {isActive('/contact') && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>}
+        </Link>
+        <Link to="/chat" className={`px-4 py-1.5 rounded-full font-bold transition-all flex items-center gap-1 shadow-sm ${isActive('/chat') ? 'bg-indigo-600 text-white shadow-indigo-200' : 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-200 dark:hover:bg-indigo-800'}`}>
           <span>AICHAT</span><span className="text-sm">✨</span>
         </Link>
       </div>
@@ -192,26 +209,26 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
               />
             </div>
 
-            <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium py-2 border-b border-gray-100 dark:border-slate-700">Home</Link>
-            <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium py-2 border-b border-gray-100 dark:border-slate-700">Resources</Link>
-            <Link to="/roadmap" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium py-2 border-b border-gray-100 dark:border-slate-700">Roadmap</Link>
-            <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium py-2 border-b border-gray-100 dark:border-slate-700">About Us</Link>
-            <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium py-2 border-b border-gray-100 dark:border-slate-700">Contact Us</Link>
+            <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/') ? 'text-indigo-700 dark:text-indigo-400 border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Home</Link>
+            <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/dashboard') ? 'text-indigo-700 dark:text-indigo-400 border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Resources</Link>
+            <Link to="/roadmap" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/roadmap') ? 'text-indigo-700 dark:text-indigo-400 border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Roadmap</Link>
+            <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/about') ? 'text-indigo-700 dark:text-indigo-400 border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>About Us</Link>
+            <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/contact') ? 'text-indigo-700 dark:text-indigo-400 border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Contact Us</Link>
             
             {currentUser ? (
               <>
-                <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium py-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2">
+                <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/profile') ? 'text-indigo-700 dark:text-indigo-400 border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>
                    Profile ({currentUser.name})
                 </Link>
-                <button onClick={() => { logout(); setIsMobileMenuOpen(false); }} className="text-left text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-500 font-medium py-2 border-b border-gray-100 dark:border-slate-700">
+                <button onClick={() => { logout(); setIsMobileMenuOpen(false); }} className="text-left text-red-600 dark:text-red-400 font-bold py-3 px-4 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-300 border-l-4 border-transparent flex items-center gap-3">
                   Logout
                 </button>
               </>
             ) : (
-                <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium py-2 border-b border-gray-100 dark:border-slate-700">Sign In</Link>
+                <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/login') ? 'text-indigo-700 dark:text-indigo-400 border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Sign In</Link>
             )}
 
-            <Link to="/chat" onClick={() => setIsMobileMenuOpen(false)} className="w-max px-4 py-2 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-400 font-semibold hover:bg-indigo-200 dark:hover:bg-indigo-800 flex items-center gap-2 shadow-sm mt-2">
+            <Link to="/chat" onClick={() => setIsMobileMenuOpen(false)} className={`w-max mx-4 px-6 py-2.5 rounded-full font-bold transition-all duration-300 flex items-center gap-2 shadow-lg mt-2 ${isActive('/chat') ? 'bg-indigo-600 text-white shadow-indigo-200' : 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-200 dark:hover:bg-indigo-800'}`}>
               <span>AICHAT</span><span>✨</span>
             </Link>
           </div>
