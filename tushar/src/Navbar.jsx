@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Search, User, GraduationCap, Moon, Sun, Bell, Menu, X, Mail, Calendar, Code } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 
 const Navbar = ({ searchTerm, setSearchTerm }) => {
@@ -8,6 +8,13 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileCardOpen, setIsProfileCardOpen] = useState(false);
   const { currentUser, logout } = useAuth();
+  const location = useLocation();
+
+  const getPlaceholder = () => {
+    if (location.pathname === '/roadmap') return 'Search roadmaps...';
+    if (location.pathname === '/dashboard') return 'Search resources...';
+    return 'Search...';
+  };
 
   const displayName = currentUser ? currentUser.name : "";
   const displayEmail = currentUser ? currentUser.email : "";
@@ -63,7 +70,7 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-300" size={20} />
           <input
             type="text"
-            placeholder="Search resources..."
+            placeholder={getPlaceholder()}
             value={searchTerm || ''}
             onChange={(e) => setSearchTerm && setSearchTerm(e.target.value)}
             className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-slate-700 dark:text-white transition-colors duration-300"
@@ -178,7 +185,7 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-300" size={20} />
               <input
                 type="text"
-                placeholder="Search resources..."
+                placeholder={getPlaceholder()}
                 value={searchTerm || ''}
                 onChange={(e) => setSearchTerm && setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-slate-700 dark:text-white transition-colors"

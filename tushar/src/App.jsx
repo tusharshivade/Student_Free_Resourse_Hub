@@ -294,11 +294,11 @@ const App = () => {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/profile" element={<><Navbar /><Profile /><Footer /></>} />
-        <Route path="/about" element={<><Navbar /><AboutUs /><Footer /></>} />
-        <Route path="/roadmap" element={<><Navbar /><Roadmap /><Footer /></>} />
-        <Route path="/contact" element={<><Navbar /><ContactUs /><Footer /></>} />
-        <Route path="/chat" element={<><Navbar /><AITutor /><Footer /></>} />
+        <Route path="/profile" element={<><Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} /><Profile /><Footer /></>} />
+        <Route path="/about" element={<><Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} /><AboutUs /><Footer /></>} />
+        <Route path="/roadmap" element={<><Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} /><Roadmap searchTerm={searchTerm} setSearchTerm={setSearchTerm} /><Footer /></>} />
+        <Route path="/contact" element={<><Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} /><ContactUs /><Footer /></>} />
+        <Route path="/chat" element={<><Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} /><AITutor /><Footer /></>} />
       </Routes>
       </div>
     </AuthProvider>

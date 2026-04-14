@@ -4,7 +4,7 @@ import {
   Globe, Layout, Code, Zap, Layers, CheckSquare,
   Terminal, Cpu, Database, Server, Share2, Shield, MessageSquare,
   Box, Code2, CloudRain, Activity, Cloud, Lock, FileText, Maximize,
-  PenTool, Users, Monitor, Eye, Calculator, BarChart, PieChart, Brain, Rocket, Download
+  PenTool, Users, Monitor, Eye, Calculator, BarChart, PieChart, Brain, Rocket, Download, Search
 } from 'lucide-react';
 
 const roadmapsData = {
@@ -82,7 +82,7 @@ const roadmapsData = {
   ]
 };
 
-const Roadmap = () => {
+const Roadmap = ({ searchTerm, setSearchTerm }) => {
   const categories = Object.keys(roadmapsData);
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   const [progress, setProgress] = useState(new Set()); // Store indices of completed steps
@@ -100,6 +100,7 @@ const Roadmap = () => {
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
     setProgress(new Set());
+    if (setSearchTerm) setSearchTerm(''); // Clear search when switching categories
   };
 
   // Helper function to map index to a difficulty level mapping from Basic to Advanced
@@ -115,6 +116,12 @@ const Roadmap = () => {
   };
 
   const currentRoadmap = roadmapsData[selectedCategory];
+
+  const filteredRoadmap = currentRoadmap.filter(step => 
+    step.title.toLowerCase().includes((searchTerm || '').toLowerCase()) ||
+    step.desc.toLowerCase().includes((searchTerm || '').toLowerCase()) ||
+    step.points.some(p => p.toLowerCase().includes((searchTerm || '').toLowerCase()))
+  );
 
   return (
     <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
@@ -168,25 +175,27 @@ const Roadmap = () => {
               <div className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 w-1.5 h-full bg-slate-100 dark:bg-slate-700 rounded-full shadow-inner z-0"></div>
 
               <div className="space-y-16 lg:space-y-24">
-                {currentRoadmap.map((step, index) => {
+                {filteredRoadmap.length > 0 ? filteredRoadmap.map((step, index) => {
                   const Icon = step.icon;
-                  const isCompleted = progress.has(index);
-                  const difficulty = getDifficultyLevel(index, currentRoadmap.length);
+                  // We need to find the actual index in the original roadmap for progress tracking
+                  const originalIndex = currentRoadmap.findIndex(s => s.title === step.title);
+                  const isCompleted = progress.has(originalIndex);
+                  const difficulty = getDifficultyLevel(originalIndex, currentRoadmap.length);
 
                   return (
-                    <div key={index} className={`relative flex flex-col lg:flex-row items-center ${index % 2 === 0 ? 'lg:flex-row-reverse' : ''} group`}>
+                    <div key={index} className={`relative flex flex-col lg:flex-row items-center ${index % 2 === 0 ? 'lg:flex-row-reverse' : ''} group animate-in fade-in slide-in-from-bottom-4 duration-500`}>
                       
                       {/* Timeline Dot Central Icon */}
                       <div className={`hidden lg:flex absolute left-1/2 transform -translate-x-1/2 w-16 h-16 rounded-full items-center justify-center shadow-2xl z-20 transition-all duration-500 cursor-pointer 
                         ${isCompleted 
                           ? 'bg-gradient-to-br from-green-400 to-emerald-600 border-4 border-emerald-100 dark:border-slate-800 scale-110 shadow-emerald-500/40' 
                           : 'bg-white dark:bg-slate-800 border-4 border-orange-100 dark:border-slate-600 hover:border-orange-300 dark:hover:border-orange-500'}`}
-                        onClick={() => toggleProgress(index)}
+                        onClick={() => toggleProgress(originalIndex)}
                       >
                          {isCompleted ? (
                             <CheckCircle className="w-7 h-7 text-white" />
                          ) : (
-                            <span className="text-slate-400 dark:text-slate-500 font-extrabold text-xl">{index + 1}</span>
+                            <span className="text-slate-400 dark:text-slate-500 font-extrabold text-xl">{originalIndex + 1}</span>
                          )}
                       </div>
 
@@ -217,7 +226,7 @@ const Roadmap = () => {
                                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold border uppercase tracking-wider ${difficulty.classes}`}>
                                    {difficulty.label}
                                  </span>
-                                 <span className="lg:hidden text-slate-400 text-sm font-bold">Step {index + 1}</span>
+                                 <span className="lg:hidden text-slate-400 text-sm font-bold">Step {originalIndex + 1}</span>
                                </div>
                                <h3 className="text-2xl font-bold text-slate-800 dark:text-white tracking-tight leading-tight mt-1">
                                  {step.title}
@@ -243,7 +252,7 @@ const Roadmap = () => {
                           
                           <div className="mt-8 pt-5 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between z-10 relative">
                             <button 
-                              onClick={() => toggleProgress(index)}
+                              onClick={() => toggleProgress(originalIndex)}
                               className={`flex items-center gap-2 text-sm font-bold transition-colors ${
                                 isCompleted 
                                   ? 'text-emerald-600 dark:text-emerald-400 hover:text-emerald-700' 
@@ -275,7 +284,23 @@ const Roadmap = () => {
 
                     </div>
                   );
-                })}
+                }) : (
+                  <div className="py-20 text-center animate-in fade-in zoom-in duration-500">
+                    <div className="w-20 h-20 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <Search className="w-10 h-10 text-slate-400" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">No matching roadmaps found</h3>
+                    <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
+                      Try searching for different keywords or check out other categories.
+                    </p>
+                    <button 
+                      onClick={() => setSearchTerm && setSearchTerm('')}
+                      className="mt-8 px-6 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-bold rounded-xl transition-colors"
+                    >
+                      Clear Search
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
