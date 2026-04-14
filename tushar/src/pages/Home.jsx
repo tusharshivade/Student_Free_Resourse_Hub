@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
+import StatsSection from '../Stats';
 import { User, Mail, Calendar, Code, MessageCircle } from 'lucide-react';
 import heroImage from '../assets/hero_student_tech.png';
 
@@ -66,6 +67,8 @@ const Home = () => {
 
           </div>
         </main>
+
+        <StatsSection />
         
         <Footer />
         
