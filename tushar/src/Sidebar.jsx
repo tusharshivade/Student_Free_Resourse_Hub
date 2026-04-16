@@ -23,7 +23,7 @@ const Sidebar = ({ selectedCategory, setSelectedCategory }) => {
       {/* Category Toggle for Mobile */}
       <button
         onClick={toggleSidebar}
-        className="md:hidden fixed top-24 left-4 z-40 bg-indigo-600 dark:bg-indigo-500 text-white px-3 py-2 rounded-full shadow-lg transition-transform duration-300 flex items-center gap-2 font-bold text-sm hover:scale-105 active:scale-95"
+        className="md:hidden fixed top-24 left-4 z-40 bg-orange-600 dark:bg-orange-500 text-white px-3 py-2 rounded-full shadow-lg transition-transform duration-300 flex items-center gap-2 font-bold text-sm hover:scale-105 active:scale-95"
       >
         {isOpen ? <X size={20} /> : <Filter size={20} />}
         <span>{isOpen ? 'Close' : 'Categories'}</span>
@@ -40,10 +40,10 @@ const Sidebar = ({ selectedCategory, setSelectedCategory }) => {
                   setSelectedCategory(category);
                   setIsOpen(false); // Close on mobile after selection
                 }}
-                className={`w-full text-left py-2 px-4 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-800 transition-colors duration-200 ${
+                className={`w-full text-left py-2 px-4 rounded-lg transition-all duration-200 ${
                   selectedCategory === category 
-                  ? 'bg-gray-200 dark:bg-slate-800 border-l-4 border-gray-600 dark:border-indigo-500' 
-                  : 'border-l-4 border-transparent'
+                  ? 'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 border-l-4 border-orange-600 dark:border-orange-500 font-bold' 
+                  : 'border-l-4 border-transparent hover:bg-gray-200 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-400'
                 }`}
               >
                 {category}

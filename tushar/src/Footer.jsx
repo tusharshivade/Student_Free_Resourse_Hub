@@ -47,7 +47,7 @@ const Footer = ({ hasSidebar = false }) => {
           {/* Brand */}
           <div className="flex items-center gap-3">
             <div className="p-2 bg-gray-200 dark:bg-slate-800 backdrop-blur-md rounded-xl shadow-inner border border-gray-300 dark:border-slate-700">
-              <GraduationCap className="text-indigo-600 dark:text-indigo-400 w-6 h-6" />
+              <GraduationCap className="text-orange-600 dark:text-orange-400 w-6 h-6" />
             </div>
             <span className="text-xl font-extrabold text-gray-900 dark:text-white tracking-tight drop-shadow-sm">
               Student Resource
@@ -58,19 +58,19 @@ const Footer = ({ hasSidebar = false }) => {
           <div className="flex items-center gap-6 text-[0.95rem] font-semibold text-gray-700 dark:text-gray-300 drop-shadow-sm">
             <Link to="/" className="hover:text-gray-900 dark:hover:text-white transition-colors relative group">
               Home
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-600 dark:bg-indigo-400 transition-all group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-600 dark:bg-orange-400 transition-all group-hover:w-full"></span>
             </Link>
             <Link to="/roadmap" className="hover:text-gray-900 dark:hover:text-white transition-colors relative group">
               Roadmap
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-600 dark:bg-indigo-400 transition-all group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-600 dark:bg-orange-400 transition-all group-hover:w-full"></span>
             </Link>
             <Link to="/about" className="hover:text-gray-900 dark:hover:text-white transition-colors relative group">
               About
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-600 dark:bg-indigo-400 transition-all group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-600 dark:bg-orange-400 transition-all group-hover:w-full"></span>
             </Link>
             <Link to="/contact" className="hover:text-gray-900 dark:hover:text-white transition-colors relative group">
               Contact
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-600 dark:bg-indigo-400 transition-all group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-600 dark:bg-orange-400 transition-all group-hover:w-full"></span>
             </Link>
           </div>
 
@@ -96,7 +96,7 @@ const Footer = ({ hasSidebar = false }) => {
         <div className="flex flex-col md:flex-row items-center justify-between py-4 border-t border-gray-300 dark:border-slate-800 text-[0.8rem] text-gray-600 dark:text-gray-400">
            <p className="font-medium drop-shadow-sm">&copy; {new Date().getFullYear()} Student Resource Hub. All rights reserved.</p>
            <p className="flex items-center gap-1.5 mt-2 md:mt-0 font-medium">
-             Built with <Heart className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400 fill-indigo-500/50 dark:fill-indigo-400/50 animate-pulse drop-shadow-sm" /> for students everywhere
+             Built with <Heart className="w-3.5 h-3.5 text-orange-500 dark:text-orange-400 fill-orange-500/50 dark:fill-orange-400/50 animate-pulse drop-shadow-sm" /> for students everywhere
            </p>
         </div>
         

@@ -52,32 +52,32 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
   return (
     <nav className="bg-white dark:bg-slate-800 shadow-md p-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50 transition-colors duration-300">
       <div className="flex items-center gap-2">
-        <GraduationCap className="text-indigo-700 dark:text-indigo-400" size={28} />
-        <Link to="/" className="text-lg sm:text-2xl font-bold text-indigo-700 dark:text-indigo-400 line-clamp-1">Student Resource Hub</Link>
+        <GraduationCap className="text-orange-600 dark:text-orange-400" size={28} />
+        <Link to="/" className="text-lg sm:text-2xl font-bold text-orange-600 dark:text-orange-400 line-clamp-1">Student Resource Hub</Link>
       </div>
 
       <div className="hidden md:flex items-center space-x-6">
-        <Link to="/" className={`relative py-1 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors ${isActive('/') ? 'text-indigo-700 dark:text-indigo-400' : ''}`}>
+        <Link to="/" className={`relative py-1 text-slate-600 dark:text-slate-300 hover:text-orange-500 dark:hover:text-orange-400 font-medium transition-colors ${isActive('/') ? 'text-orange-600 dark:text-orange-400' : ''}`}>
           Home
-          {isActive('/') && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>}
+          {isActive('/') && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-600 dark:bg-orange-400 rounded-full"></span>}
         </Link>
-        <Link to="/dashboard" className={`relative py-1 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors ${isActive('/dashboard') ? 'text-indigo-700 dark:text-indigo-400' : ''}`}>
+        <Link to="/dashboard" className={`relative py-1 text-slate-600 dark:text-slate-300 hover:text-orange-500 dark:hover:text-orange-400 font-medium transition-colors ${isActive('/dashboard') ? 'text-orange-600 dark:text-orange-400' : ''}`}>
           Resources
-          {isActive('/dashboard') && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>}
+          {isActive('/dashboard') && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-600 dark:bg-orange-400 rounded-full"></span>}
         </Link>
-        <Link to="/roadmap" className={`relative py-1 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors ${isActive('/roadmap') ? 'text-indigo-700 dark:text-indigo-400' : ''}`}>
+        <Link to="/roadmap" className={`relative py-1 text-slate-600 dark:text-slate-300 hover:text-orange-500 dark:hover:text-orange-400 font-medium transition-colors ${isActive('/roadmap') ? 'text-orange-600 dark:text-orange-400' : ''}`}>
           Roadmap
-          {isActive('/roadmap') && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>}
+          {isActive('/roadmap') && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-600 dark:bg-orange-400 rounded-full"></span>}
         </Link>
-        <Link to="/about" className={`relative py-1 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors ${isActive('/about') ? 'text-indigo-700 dark:text-indigo-400' : ''}`}>
+        <Link to="/about" className={`relative py-1 text-slate-600 dark:text-slate-300 hover:text-orange-500 dark:hover:text-orange-400 font-medium transition-colors ${isActive('/about') ? 'text-orange-600 dark:text-orange-400' : ''}`}>
           About Us
-          {isActive('/about') && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>}
+          {isActive('/about') && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-600 dark:bg-orange-400 rounded-full"></span>}
         </Link>
-        <Link to="/contact" className={`relative py-1 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors ${isActive('/contact') ? 'text-indigo-700 dark:text-indigo-400' : ''}`}>
+        <Link to="/contact" className={`relative py-1 text-slate-600 dark:text-slate-300 hover:text-orange-500 dark:hover:text-orange-400 font-medium transition-colors ${isActive('/contact') ? 'text-orange-600 dark:text-orange-400' : ''}`}>
           Contact Us
-          {isActive('/contact') && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>}
+          {isActive('/contact') && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-600 dark:bg-orange-400 rounded-full"></span>}
         </Link>
-        <Link to="/chat" className={`px-4 py-1.5 rounded-full font-bold transition-all flex items-center gap-1 shadow-sm ${isActive('/chat') ? 'bg-indigo-600 text-white shadow-indigo-200' : 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-200 dark:hover:bg-indigo-800'}`}>
+        <Link to="/chat" className={`px-4 py-1.5 rounded-full font-bold transition-all flex items-center gap-1 shadow-sm ${isActive('/chat') ? 'bg-orange-600 text-white shadow-orange-200' : 'bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400 hover:bg-orange-200 dark:hover:bg-orange-800'}`}>
           <span>AICHAT</span><span className="text-sm">✨</span>
         </Link>
       </div>
@@ -90,26 +90,26 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
             placeholder={getPlaceholder()}
             value={searchTerm || ''}
             onChange={(e) => setSearchTerm && setSearchTerm(e.target.value)}
-            className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-slate-700 dark:text-white transition-colors duration-300"
+            className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-slate-700 dark:text-white transition-colors duration-300"
           />
         </div>
 
         <button
           onClick={toggleDarkMode}
-          className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+          className="text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
           aria-label="Toggle Dark Mode"
         >
           {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
         </button>
 
-        <button className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors relative" aria-label="Notifications">
+        <button className="text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors relative" aria-label="Notifications">
           <Bell size={24} />
-          <span className="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-rose-500 ring-2 ring-white dark:ring-slate-800"></span>
+          <span className="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-orange-500 ring-2 ring-white dark:ring-slate-800"></span>
         </button>
 
         {currentUser ? (
           <div className="flex items-center gap-3 relative cursor-pointer" onClick={() => setIsProfileCardOpen(!isProfileCardOpen)}>
-              <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-700 dark:text-indigo-400 font-bold border border-indigo-200 dark:border-indigo-800 transition-transform hover:scale-105" title={currentUser.name}>
+              <div className="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900 flex items-center justify-center text-orange-600 dark:text-orange-400 font-bold border border-orange-200 dark:border-orange-800 transition-transform hover:scale-105" title={currentUser.name}>
                 {currentUser.name.charAt(0).toUpperCase()}
               </div>
 
@@ -156,7 +156,7 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
                     {/* Stats Grid */}
                     <div className="grid grid-cols-1 gap-2 pt-3 border-t border-slate-100 dark:border-slate-700/50">
                       <div className="flex items-center gap-3">
-                        <div className="p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg text-indigo-500 dark:text-indigo-400">
+                        <div className="p-2 bg-orange-50 dark:bg-orange-900/30 rounded-lg text-orange-500 dark:text-orange-400">
                           <Mail size={14} />
                         </div>
                         <div className="overflow-hidden">
@@ -180,13 +180,13 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
           </div>
         ) : (
           <Link to="/login">
-            <User className="text-gray-600 dark:text-gray-300 cursor-pointer hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors" size={24} />
+            <User className="text-gray-600 dark:text-gray-300 cursor-pointer hover:text-orange-500 dark:hover:text-orange-400 transition-colors" size={24} />
           </Link>
         )}
 
         {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none"
+          className="md:hidden text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 focus:outline-none"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -205,19 +205,19 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
                 placeholder={getPlaceholder()}
                 value={searchTerm || ''}
                 onChange={(e) => setSearchTerm && setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-slate-700 dark:text-white transition-colors"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-slate-700 dark:text-white transition-colors"
               />
             </div>
 
-            <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/') ? 'text-indigo-700 dark:text-indigo-400 border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Home</Link>
-            <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/dashboard') ? 'text-indigo-700 dark:text-indigo-400 border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Resources</Link>
-            <Link to="/roadmap" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/roadmap') ? 'text-indigo-700 dark:text-indigo-400 border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Roadmap</Link>
-            <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/about') ? 'text-indigo-700 dark:text-indigo-400 border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>About Us</Link>
-            <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/contact') ? 'text-indigo-700 dark:text-indigo-400 border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Contact Us</Link>
+            <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/') ? 'text-orange-600 dark:text-orange-400 border-orange-600 bg-orange-50 dark:bg-orange-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Home</Link>
+            <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/dashboard') ? 'text-orange-600 dark:text-orange-400 border-orange-600 bg-orange-50 dark:bg-orange-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Resources</Link>
+            <Link to="/roadmap" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/roadmap') ? 'text-orange-600 dark:text-orange-400 border-orange-600 bg-orange-50 dark:bg-orange-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Roadmap</Link>
+            <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/about') ? 'text-orange-600 dark:text-orange-400 border-orange-600 bg-orange-50 dark:bg-orange-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>About Us</Link>
+            <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/contact') ? 'text-orange-600 dark:text-orange-400 border-orange-600 bg-orange-50 dark:bg-orange-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Contact Us</Link>
             
             {currentUser ? (
               <>
-                <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/profile') ? 'text-indigo-700 dark:text-indigo-400 border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>
+                <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/profile') ? 'text-orange-600 dark:text-orange-400 border-orange-600 bg-orange-50 dark:bg-orange-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>
                    Profile ({currentUser.name})
                 </Link>
                 <button onClick={() => { logout(); setIsMobileMenuOpen(false); }} className="text-left text-red-600 dark:text-red-400 font-bold py-3 px-4 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-300 border-l-4 border-transparent flex items-center gap-3">
@@ -225,10 +225,10 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
                 </button>
               </>
             ) : (
-                <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/login') ? 'text-indigo-700 dark:text-indigo-400 border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Sign In</Link>
+                <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/login') ? 'text-orange-600 dark:text-orange-400 border-orange-600 bg-orange-50 dark:bg-orange-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Sign In</Link>
             )}
 
-            <Link to="/chat" onClick={() => setIsMobileMenuOpen(false)} className={`w-max mx-4 px-6 py-2.5 rounded-full font-bold transition-all duration-300 flex items-center gap-2 shadow-lg mt-2 ${isActive('/chat') ? 'bg-indigo-600 text-white shadow-indigo-200' : 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-200 dark:hover:bg-indigo-800'}`}>
+            <Link to="/chat" onClick={() => setIsMobileMenuOpen(false)} className={`w-max mx-4 px-6 py-2.5 rounded-full font-bold transition-all duration-300 flex items-center gap-2 shadow-lg mt-2 ${isActive('/chat') ? 'bg-orange-600 text-white shadow-orange-200' : 'bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400 hover:bg-orange-200 dark:hover:bg-orange-800'}`}>
               <span>AICHAT</span><span>✨</span>
             </Link>
           </div>

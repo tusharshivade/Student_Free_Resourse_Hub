@@ -56,8 +56,8 @@ const Card = ({ resource, isLiked, onLike }) => {
         {/* Header */}
         <div className="border-b border-gray-100 dark:border-slate-700 p-5 flex justify-between items-center bg-gray-50 dark:bg-slate-800/80">
           <h3 className="font-bold text-xl text-gray-800 dark:text-white flex items-center gap-3">
-            <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
-              <MessageSquare className="text-indigo-600 dark:text-indigo-400 w-5 h-5" />
+            <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+              <MessageSquare className="text-orange-600 dark:text-orange-400 w-5 h-5" />
             </div>
             Discussion
           </h3>
@@ -75,10 +75,10 @@ const Card = ({ resource, isLiked, onLike }) => {
           {comments.map((comment) => (
             <div key={comment.id} className="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700">
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-[10px] font-bold text-white">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-rose-500 flex items-center justify-center text-[10px] font-bold text-white">
                   {comment.author.charAt(0)}
                 </div>
-                <p className="text-xs font-bold text-indigo-600 dark:text-indigo-400">{comment.author}</p>
+                <p className="text-xs font-bold text-orange-600 dark:text-orange-400">{comment.author}</p>
               </div>
               <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed pl-8">{comment.text}</p>
             </div>
@@ -99,9 +99,9 @@ const Card = ({ resource, isLiked, onLike }) => {
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               placeholder="Share your thoughts or ask a question..."
-              className="w-full text-sm pl-4 pr-14 py-3 border border-gray-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-slate-700 dark:text-white transition-colors shadow-inner"
+              className="w-full text-sm pl-4 pr-14 py-3 border border-gray-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-slate-700 dark:text-white transition-colors shadow-inner"
             />
-            <button type="submit" disabled={!newComment.trim()} className="absolute right-2 p-2 text-white bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-300 disabled:dark:bg-slate-600 rounded-lg transition-colors flex items-center justify-center outline-none">
+            <button type="submit" disabled={!newComment.trim()} className="absolute right-2 p-2 text-white bg-orange-600 hover:bg-orange-700 disabled:bg-gray-300 disabled:dark:bg-slate-600 rounded-lg transition-colors flex items-center justify-center outline-none">
               <Send size={16} />
             </button>
           </form>
@@ -112,12 +112,13 @@ const Card = ({ resource, isLiked, onLike }) => {
   ) : null;
 
   return (
-    <div className="group relative bg-white dark:bg-slate-800 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-indigo-100 dark:border-indigo-500/20 border-t-4 border-t-indigo-500 dark:border-t-indigo-400 overflow-hidden flex flex-col h-full min-h-[300px]">
+    <div className="group relative bg-white dark:bg-slate-800 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-orange-100 dark:border-orange-500/20 overflow-hidden flex flex-col h-full min-h-[300px]">
+      <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-orange-500 to-red-500"></div>
       <div className="p-6 flex flex-col flex-grow relative z-10">
         {/* Decorative gradient blur background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/30 to-emerald-50/30 dark:from-indigo-900/10 dark:to-emerald-900/10 group-hover:from-indigo-100/50 group-hover:to-emerald-100/50 transition-colors duration-500 rounded-xl -z-10 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-orange-50/30 to-red-50/30 dark:from-orange-900/10 dark:to-red-900/10 group-hover:from-orange-100/50 group-hover:to-red-100/50 transition-colors duration-500 rounded-xl -z-10 pointer-events-none"></div>
         
-        <h3 className="text-xl font-bold mb-2 text-gray-800 dark:text-gray-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
+        <h3 className="text-xl font-bold mb-2 text-gray-800 dark:text-gray-100 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300">
           {resource.title}
         </h3>
         
@@ -127,7 +128,7 @@ const Card = ({ resource, isLiked, onLike }) => {
         
         <div className="flex flex-wrap gap-2 mb-6 mt-auto">
           {resource.tags.map(tag => (
-            <span key={tag} className="bg-indigo-50 dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider shadow-sm">
+            <span key={tag} className="bg-orange-50 dark:bg-slate-700 text-orange-700 dark:text-orange-300 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider shadow-sm">
               {tag}
             </span>
           ))}
@@ -149,7 +150,7 @@ const Card = ({ resource, isLiked, onLike }) => {
             </button>
             <button
               onClick={() => setIsCommentsOpen(true)}
-              className={`flex items-center space-x-1 p-2 rounded-full transform transition-all duration-300 z-10 ${isCommentsOpen ? 'text-indigo-600 bg-indigo-50 dark:text-indigo-400 dark:bg-indigo-900/20' : 'text-gray-400 dark:text-gray-500 hover:text-indigo-500 hover:bg-gray-50 dark:hover:bg-slate-700 hover:scale-105'}`}
+              className={`flex items-center space-x-1 p-2 rounded-full transform transition-all duration-300 z-10 ${isCommentsOpen ? 'text-orange-600 bg-orange-50 dark:text-orange-400 dark:bg-orange-900/20' : 'text-gray-400 dark:text-gray-500 hover:text-orange-500 hover:bg-gray-50 dark:hover:bg-slate-700 hover:scale-105'}`}
               aria-label="Open comments popup"
             >
               <MessageSquare size={22} />
@@ -161,7 +162,7 @@ const Card = ({ resource, isLiked, onLike }) => {
             href={resource.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-gray-900 hover:bg-indigo-600 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center space-x-2 shadow-sm hover:shadow-md transform active:scale-95 text-sm font-medium z-10"
+            className="bg-gray-900 hover:bg-orange-600 dark:bg-orange-600 dark:hover:bg-orange-500 text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center space-x-2 shadow-sm hover:shadow-md transform active:scale-95 text-sm font-medium z-10"
           >
             <span>Visit</span>
             <ExternalLink size={16} />

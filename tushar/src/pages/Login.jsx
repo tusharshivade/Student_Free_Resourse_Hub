@@ -35,12 +35,12 @@ const Login = () => {
     <div className="min-h-screen flex bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
       
       {/* Left Pane - Branding/Illustration (Hidden on mobile) */}
-      <div className="hidden lg:flex w-1/2 relative bg-gradient-to-br from-[#21d2bd] to-[#1db8a5] overflow-hidden">
+      <div className="hidden lg:flex w-1/2 relative bg-gradient-to-br from-orange-600 to-red-700 overflow-hidden">
         {/* Abstract Background Design */}
         <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#F13E93] rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob"></div>
-          <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-yellow-400 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-8 left-1/3 w-96 h-96 bg-emerald-400 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-4000"></div>
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-400 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob"></div>
+          <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-red-400 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
+          <div className="absolute -bottom-8 left-1/3 w-96 h-96 bg-rose-400 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-4000"></div>
         </div>
         
         <div className="relative z-10 p-12 flex flex-col justify-between w-full h-full">
@@ -57,19 +57,19 @@ const Login = () => {
             <h1 className="text-5xl font-extrabold text-white mb-6 leading-tight">
               Welcome back to <br/> your workspace.
             </h1>
-            <p className="text-emerald-50 text-lg mb-8 leading-relaxed">
+            <p className="text-orange-50 text-lg mb-8 leading-relaxed">
               Sign in to continue exploring top-tier resources, connect with AI tutors, and track your educational roadmap seamlessly.
             </p>
             
             <div className="space-y-4">
-              <div className="flex items-center gap-3 text-emerald-50">
-                <CheckCircle2 size={24} className="text-[#F13E93]" />
+              <div className="flex items-center gap-3 text-orange-50">
+                <CheckCircle2 size={24} className="text-white" />
                 <span className="font-medium text-lg">Your progress automatically synced</span>
               </div>
             </div>
           </div>
           
-          <div className="text-emerald-100/80 text-sm">
+          <div className="text-orange-100/80 text-sm">
             © {new Date().getFullYear()} Student Resource Hub. All rights reserved.
           </div>
         </div>

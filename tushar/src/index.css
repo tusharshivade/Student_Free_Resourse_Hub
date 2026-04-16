@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --primary-indigo: #3730a3;
+  --primary-theme: #ea580c; /* Changed from indigo to orange */
   --bg-slate: #f8fafc;
   --accent-emerald: #10b981;
 }
@@ -48,7 +48,7 @@ body {
 }
 
 .btn-category-active {
-  background-color: var(--primary-indigo);
+  background-color: var(--primary-theme);
   color: white;
 }
 
