@@ -1,22 +1,15 @@
 import { useState, useEffect } from 'react';
-import { Search, User, GraduationCap, Moon, Sun, Bell, Menu, X, Mail, Calendar, Code } from 'lucide-react';
+import { User, GraduationCap, Moon, Sun, Bell, Menu, X, Mail, Calendar, Code } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 
-const Navbar = ({ searchTerm, setSearchTerm }) => {
+const Navbar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileCardOpen, setIsProfileCardOpen] = useState(false);
   const { currentUser, logout } = useAuth();
   const location = useLocation();
-
   const isActive = (path) => location.pathname === path;
-
-  const getPlaceholder = () => {
-    if (location.pathname === '/roadmap') return 'Search roadmaps...';
-    if (location.pathname === '/dashboard') return 'Search resources...';
-    return 'Search...';
-  };
 
   const displayName = currentUser ? currentUser.name : "";
   const displayEmail = currentUser ? currentUser.email : "";
@@ -73,10 +66,6 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
           About Us
           {isActive('/about') && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-600 dark:bg-orange-400 rounded-full"></span>}
         </Link>
-        <Link to="/contact" className={`relative py-1 text-slate-600 dark:text-slate-300 hover:text-orange-500 dark:hover:text-orange-400 font-medium transition-colors ${isActive('/contact') ? 'text-orange-600 dark:text-orange-400' : ''}`}>
-          Contact Us
-          {isActive('/contact') && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-600 dark:bg-orange-400 rounded-full"></span>}
-        </Link>
         <div className="h-6 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
         <Link to="/jobs" className={`relative py-1 text-slate-600 dark:text-slate-300 hover:text-orange-500 dark:hover:text-orange-400 font-medium transition-colors ${isActive('/jobs') ? 'text-orange-600 dark:text-orange-400' : ''}`}>
           Jobs
@@ -100,16 +89,6 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
       </div>
 
       <div className="flex items-center space-x-4">
-        <div className="relative hidden sm:block">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-300" size={20} />
-          <input
-            type="text"
-            placeholder={getPlaceholder()}
-            value={searchTerm || ''}
-            onChange={(e) => setSearchTerm && setSearchTerm(e.target.value)}
-            className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-slate-700 dark:text-white transition-colors duration-300"
-          />
-        </div>
 
         <button
           onClick={toggleDarkMode}
@@ -214,23 +193,11 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
       {isMobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-slate-800 border-t border-gray-100 dark:border-slate-700 shadow-xl flex flex-col z-50">
           <div className="flex flex-col p-4 space-y-4">
-            {/* Mobile Search */}
-            <div className="relative sm:hidden mb-2">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-300" size={20} />
-              <input
-                type="text"
-                placeholder={getPlaceholder()}
-                value={searchTerm || ''}
-                onChange={(e) => setSearchTerm && setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-slate-700 dark:text-white transition-colors"
-              />
-            </div>
 
             <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/') ? 'text-orange-600 dark:text-orange-400 border-orange-600 bg-orange-50 dark:bg-orange-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Home</Link>
             <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/dashboard') ? 'text-orange-600 dark:text-orange-400 border-orange-600 bg-orange-50 dark:bg-orange-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Resources</Link>
             <Link to="/roadmap" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/roadmap') ? 'text-orange-600 dark:text-orange-400 border-orange-600 bg-orange-50 dark:bg-orange-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Roadmap</Link>
             <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/about') ? 'text-orange-600 dark:text-orange-400 border-orange-600 bg-orange-50 dark:bg-orange-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>About Us</Link>
-            <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-3 font-bold py-3 px-4 border-l-4 transition-all duration-300 ${isActive('/contact') ? 'text-orange-600 dark:text-orange-400 border-orange-600 bg-orange-50 dark:bg-orange-900/20 shadow-inner' : 'text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>Contact Us</Link>
             
             {currentUser ? (
               <>

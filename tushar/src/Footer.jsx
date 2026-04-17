@@ -75,19 +75,25 @@ const Footer = ({ hasSidebar = false }) => {
           </div>
 
           {/* Socials & Contact */}
-          <div className="flex items-center gap-1">
-            <a 
-              href="mailto:tusharshivade122@gmail.com" 
-              className="p-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-slate-800 hover:shadow-lg rounded-lg transition-all duration-300 transform hover:-translate-y-1 mr-1 flex items-center gap-2 tooltip"
-            >
-              <Mail className="w-[1.125rem] h-[1.125rem]" />
-            </a>
-            
-            <div className="w-px h-6 bg-gray-300 dark:bg-slate-700 mx-1"></div>
-            
-            <SocialButton href="#" icon={Twitter} />
-            <SocialButton href="#" icon={Linkedin} />
-            <SocialButton href="#" icon={Github} />
+          <div className="flex flex-col items-center md:items-end gap-3">
+            <div className="flex items-center gap-1">
+              <a 
+                href="mailto:tusharshivade122@gmail.com" 
+                className="p-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-slate-800 hover:shadow-lg rounded-lg transition-all duration-300 transform hover:-translate-y-1 mr-1 flex items-center gap-2"
+                title="Email Us"
+              >
+                <Mail className="w-[1.125rem] h-[1.125rem]" />
+              </a>
+              
+              <div className="w-px h-6 bg-gray-300 dark:bg-slate-700 mx-1"></div>
+              
+              <SocialButton href="#" icon={Twitter} />
+              <SocialButton href="#" icon={Linkedin} />
+              <SocialButton href="#" icon={Github} />
+            </div>
+            <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">
+              Contact: tusharshivade122@gmail.com
+            </p>
           </div>
           
         </div>

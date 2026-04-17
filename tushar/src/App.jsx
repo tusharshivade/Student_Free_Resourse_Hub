@@ -271,7 +271,7 @@ const App = () => {
           path="/dashboard" 
           element={
             <ProtectedRoute>
-              <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+              <Navbar />
               <Dashboard />
               <Footer />
             </ProtectedRoute>
