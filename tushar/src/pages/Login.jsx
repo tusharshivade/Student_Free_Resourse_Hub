@@ -123,9 +123,9 @@ const Login = () => {
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300" htmlFor="password">
                     Password
                   </label>
-                  <a href="#" className="text-xs font-semibold text-[#F13E93] hover:opacity-80">
+                  <Link to="/forgot-password" size={18} className="text-xs font-semibold text-[#F13E93] hover:opacity-80">
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

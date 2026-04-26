@@ -59,7 +59,7 @@ const AITutor = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/messages');
+        const res = await fetch('/api/messages');
         if (res.ok) {
           const data = await res.json();
           if (data.messages && data.messages.length > 0) {
@@ -155,7 +155,7 @@ const AITutor = () => {
         formData.append('image', fileToSend);
         
         try {
-          const uploadRes = await fetch('http://localhost:5000/api/upload', {
+          const uploadRes = await fetch('/api/upload', {
             method: 'POST',
             body: formData
           });
@@ -180,7 +180,7 @@ const AITutor = () => {
 
       // 3. Save User Message to Backend (To Sync with Room)
       try {
-        await fetch('http://localhost:5000/api/messages', {
+        await fetch('/api/messages', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ role: 'user', content: userMessage, imageUrl: uploadedImageUrl })
@@ -213,7 +213,7 @@ const AITutor = () => {
       
       // 5. Save AI's response to Backend synced room
       try {
-        await fetch('http://localhost:5000/api/messages', {
+        await fetch('/api/messages', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ role: 'model', content: fullText, imageUrl: null })
@@ -381,7 +381,7 @@ const AITutor = () => {
             </div>
           </form>
           <div className="text-center mt-2">
-            <span className="text-xs text-slate-500 dark:text-slate-400">Project Ideas shared here are persisted across sessions on standard localhost:5000.</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400">Project Ideas shared here are persisted across sessions.</span>
           </div>
         </div>
       </div>

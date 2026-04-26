@@ -21,7 +21,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (currentUser) {
       // Fetch Roadmap Progress
-      fetch(`http://localhost:5000/api/roadmaps/${currentUser.id}`)
+      fetch(`/api/roadmaps/${currentUser.id}`)
         .then(res => res.json())
         .then(data => {
           // Calculate an overall percentage (simplified: average of steps found)
@@ -34,6 +34,22 @@ const Dashboard = () => {
             points: currentUser.points || 0,
             streak: currentUser.streaks || 0
           }));
+        });
+
+      // Fetch Job Match Count
+      fetch('/api/jobs?location=Pune')
+        .then(res => res.json())
+        .then(data => {
+          if (data.jobs) {
+            const userSkills = currentUser.skills ? (typeof currentUser.skills === 'string' ? JSON.parse(currentUser.skills) : currentUser.skills) : [];
+            const matches = data.jobs.filter(job => {
+              const jobSkills = job.skills || [];
+              return jobSkills.some(skill => 
+                userSkills.some(userSkill => userSkill.toLowerCase() === skill.toLowerCase())
+              );
+            });
+            setStats(prev => ({ ...prev, jobMatches: matches.length }));
+          }
         });
     }
   }, [currentUser]);

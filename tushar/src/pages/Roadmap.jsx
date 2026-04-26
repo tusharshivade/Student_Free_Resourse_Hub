@@ -93,7 +93,7 @@ const Roadmap = ({ searchTerm, setSearchTerm }) => {
 
   useEffect(() => {
     if (currentUser) {
-      fetch(`http://localhost:5000/api/roadmaps/${currentUser.id}`)
+      fetch(`/api/roadmaps/${currentUser.id}`)
         .then(res => res.json())
         .then(data => {
           const userProgress = new Set(
@@ -112,7 +112,7 @@ const Roadmap = ({ searchTerm, setSearchTerm }) => {
     
     setSyncing(true);
     try {
-      const res = await fetch('http://localhost:5000/api/roadmaps/toggle', {
+      const res = await fetch('/api/roadmaps/toggle', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

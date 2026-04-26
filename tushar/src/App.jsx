@@ -18,6 +18,8 @@ import Interviews from './pages/Interviews';
 import OpenSource from './pages/OpenSource';
 import Dashboard from './pages/Dashboard';
 import AptitudeArena from './pages/AptitudeArena';
+import ForgotPassword from './pages/ForgotPassword';
+import RequestReset from './pages/RequestReset';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Navigate } from 'react-router-dom';
 
@@ -280,6 +282,8 @@ const App = () => {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/forgot-password" element={<RequestReset />} />
+        <Route path="/reset-password" element={<ForgotPassword />} />
         <Route path="/profile" element={<ProtectedRoute><Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} /><Profile /><Footer /></ProtectedRoute>} />
         <Route path="/about" element={<><Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} /><AboutUs /><Footer /></>} />
         <Route path="/roadmap" element={<ProtectedRoute><Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} /><Roadmap searchTerm={searchTerm} setSearchTerm={setSearchTerm} /><Footer /></ProtectedRoute>} />

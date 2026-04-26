@@ -119,7 +119,7 @@ const AptitudeArena = () => {
 
         // Save to backend
         if (currentUser) {
-           await fetch('http://localhost:5000/api/aptitude/results', {
+           await fetch('/api/aptitude/results', {
              method: 'POST',
              headers: { 'Content-Type': 'application/json' },
              body: JSON.stringify({

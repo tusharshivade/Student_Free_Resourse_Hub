@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
-const API_URL = 'http://localhost:5000/api/auth';
+const API_URL = '/api/auth';
 
 export const useAuth = () => useContext(AuthContext);
 
@@ -43,7 +43,12 @@ export const AuthProvider = ({ children }) => {
       body: JSON.stringify({ name, email, password, accountType })
     });
     
-    const data = await res.json();
+    let data;
+    try {
+      data = await res.json();
+    } catch (e) {
+      data = {};
+    }
     
     if (!res.ok) {
       throw new Error(data.error || 'Failed to create account');
@@ -61,7 +66,12 @@ export const AuthProvider = ({ children }) => {
       body: JSON.stringify({ email, password })
     });
     
-    const data = await res.json();
+    let data;
+    try {
+      data = await res.json();
+    } catch (e) {
+      data = {};
+    }
     
     if (!res.ok) {
       throw new Error(data.error || 'Invalid email or password');
