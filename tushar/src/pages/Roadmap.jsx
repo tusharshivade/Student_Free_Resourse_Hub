@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Map, Milestone, BookOpen, CheckCircle, ChevronRight,
   Globe, Layout, Code, Zap, Layers, CheckSquare,
   Terminal, Cpu, Database, Server, Share2, Shield, MessageSquare,
   Box, Code2, CloudRain, Activity, Cloud, Lock, FileText, Maximize,
-  PenTool, Users, Monitor, Eye, Calculator, BarChart, PieChart, Brain, Rocket, Download, Search, Loader2
+  PenTool, Users, Monitor, Eye, Calculator, BarChart, PieChart, Brain, Rocket, Download, Search, Loader2,
+  X, Plus, Home as HomeIcon, ChevronDown
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { useEffect } from 'react';
 
 const roadmapsData = {
   "Development": [
@@ -90,6 +90,10 @@ const Roadmap = ({ searchTerm, setSearchTerm }) => {
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   const [progress, setProgress] = useState(new Set()); 
   const [syncing, setSyncing] = useState(false);
+  
+  // Tab Management State
+  const [openTabs, setOpenTabs] = useState([{ id: 'root', title: 'Main Path', type: 'tree' }]);
+  const [activeTabId, setActiveTabId] = useState('root');
 
   useEffect(() => {
     if (currentUser) {
@@ -97,7 +101,7 @@ const Roadmap = ({ searchTerm, setSearchTerm }) => {
         .then(res => res.json())
         .then(data => {
           const userProgress = new Set(
-            data.progress
+            (data.progress || [])
               .filter(p => p.roadmapType === selectedCategory)
               .map(p => p.stepIndex)
           );
@@ -137,57 +141,75 @@ const Roadmap = ({ searchTerm, setSearchTerm }) => {
     }
   };
 
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
-    if (setSearchTerm) setSearchTerm('');
+  const openNodeTab = (step, index) => {
+    const tabId = `step-${index}`;
+    if (!openTabs.find(t => t.id === tabId)) {
+      setOpenTabs([...openTabs, { id: tabId, title: step.title, type: 'detail', step, index }]);
+    }
+    setActiveTabId(tabId);
   };
 
-  // Helper function to map index to a difficulty level mapping from Basic to Advanced
-  const getDifficultyLevel = (index, totalLength) => {
-    const percentage = index / (totalLength - 1);
-    if (percentage <= 0.3) {
-      return { label: 'Basic', classes: 'text-emerald-700 bg-emerald-100 dark:text-emerald-300 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800' };
-    } else if (percentage <= 0.7) {
-      return { label: 'Intermediate', classes: 'text-amber-700 bg-amber-100 dark:text-amber-300 dark:bg-amber-900/30 border-amber-200 dark:border-amber-800' };
-    } else {
-      return { label: 'Advanced', classes: 'text-rose-700 bg-rose-100 dark:text-rose-300 dark:bg-rose-900/30 border-rose-200 dark:border-rose-800' };
+  const closeTab = (e, tabId) => {
+    e.stopPropagation();
+    if (tabId === 'root') return;
+    
+    const newTabs = openTabs.filter(t => t.id !== tabId);
+    setOpenTabs(newTabs);
+    if (activeTabId === tabId) {
+      setActiveTabId(newTabs[newTabs.length - 1].id);
     }
+  };
+
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+    setOpenTabs([{ id: 'root', title: 'Main Path', type: 'tree' }]);
+    setActiveTabId('root');
+    if (setSearchTerm) setSearchTerm('');
   };
 
   const currentRoadmap = roadmapsData[selectedCategory];
 
-  const filteredRoadmap = currentRoadmap.filter(step => 
-    step.title.toLowerCase().includes((searchTerm || '').toLowerCase()) ||
-    step.desc.toLowerCase().includes((searchTerm || '').toLowerCase()) ||
-    step.points.some(p => p.toLowerCase().includes((searchTerm || '').toLowerCase()))
-  );
+  const getDifficultyLevel = (index, totalLength) => {
+    const percentage = index / (totalLength - 1);
+    if (percentage <= 0.3) {
+      return { label: 'Basic', classes: 'text-emerald-700 bg-emerald-100 dark:text-emerald-300 dark:bg-emerald-900/30' };
+    } else if (percentage <= 0.7) {
+      return { label: 'Intermediate', classes: 'text-amber-700 bg-amber-100 dark:text-amber-300 dark:bg-amber-900/30' };
+    } else {
+      return { label: 'Advanced', classes: 'text-rose-700 bg-rose-100 dark:text-rose-300 dark:bg-rose-900/30' };
+    }
+  };
+
+  const activeTab = openTabs.find(t => t.id === activeTabId) || openTabs[0];
 
   return (
-    <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+    <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900 transition-colors duration-300 font-sans">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16 relative">
+        
+        {/* Header Section */}
+        <div className="text-center mb-12 relative">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-32 bg-orange-500/20 rounded-full blur-3xl pointer-events-none"></div>
-          <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 dark:text-white flex items-center justify-center gap-4 relative z-10 tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white flex items-center justify-center gap-4 relative z-10">
             <span className="p-3 bg-orange-100 dark:bg-orange-900/40 rounded-2xl">
-              <Map className="w-10 h-10 md:w-14 md:h-14 text-orange-600 dark:text-orange-400" />
+              <Map className="w-10 h-10 text-orange-600 dark:text-orange-400" />
             </span>
-            Learning Roadmaps
+            Roadmap Workstation
           </h1>
-          <p className="mt-6 text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
-            Follow our highly detailed, step-by-step master guides to level up your career. Click individual steps to mark them as completed as you journey from Basic to Advanced!
+          <p className="mt-4 text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+            Click nodes to explore in detail. Each branch opens in a new tab for focused learning.
           </p>
         </div>
 
-        {/* Category Tabs */}
-        <div className="flex flex-wrap justify-center gap-3 md:gap-4 mb-20 relative z-10">
+        {/* Category Selector */}
+        <div className="flex flex-wrap justify-center gap-2 mb-10">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => handleCategoryChange(category)}
-              className={`px-6 py-3.5 rounded-2xl font-bold text-sm md:text-base transition-all duration-300 transform ${
+              className={`px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 ${
                 selectedCategory === category
-                  ? 'bg-gradient-to-br from-red-500 to-rose-600 text-white shadow-xl shadow-red-500/30 scale-105 border border-red-500/50'
-                  : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 shadow-md border border-slate-200 dark:border-slate-700 hover:-translate-y-1'
+                  ? 'bg-orange-600 text-white shadow-lg shadow-orange-500/30 scale-105'
+                  : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700'
               }`}
             >
               {category}
@@ -195,156 +217,174 @@ const Roadmap = ({ searchTerm, setSearchTerm }) => {
           ))}
         </div>
 
-        {/* Roadmap Timeline Area */}
-        <div className="bg-white dark:bg-slate-800 rounded-[2.5rem] shadow-2xl p-6 sm:p-10 lg:p-16 transition-colors duration-300 border border-slate-100 dark:border-slate-700 relative overflow-hidden">
-          {/* Decorative background gradients */}
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-500/5 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
-          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-red-500/5 rounded-full blur-3xl -translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
-
-          <div className="relative z-10">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-white mb-16 text-center flex flex-col justify-center items-center gap-3">
-              <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
-                {selectedCategory}
-              </span>
-              <span className="text-xl md:text-2xl font-medium text-slate-500 dark:text-slate-400">Basic to Advanced Mastery Path</span>
-            </h2>
-
-            <div className="relative max-w-5xl mx-auto">
-              {/* Dynamic Center Vertical Line (Progressed vs Unprogressed) */}
-              <div className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 w-1.5 h-full bg-slate-100 dark:bg-slate-700 rounded-full shadow-inner z-0"></div>
-
-              <div className="space-y-16 lg:space-y-24">
-                {filteredRoadmap.length > 0 ? filteredRoadmap.map((step, index) => {
-                  const Icon = step.icon;
-                  // We need to find the actual index in the original roadmap for progress tracking
-                  const originalIndex = currentRoadmap.findIndex(s => s.title === step.title);
-                  const isCompleted = progress.has(originalIndex);
-                  const difficulty = getDifficultyLevel(originalIndex, currentRoadmap.length);
-
-                  return (
-                    <div key={index} className={`relative flex flex-col lg:flex-row items-center ${index % 2 === 0 ? 'lg:flex-row-reverse' : ''} group animate-in fade-in slide-in-from-bottom-4 duration-500`}>
-                      
-                      {/* Timeline Dot Central Icon */}
-                      <div className={`hidden lg:flex absolute left-1/2 transform -translate-x-1/2 w-16 h-16 rounded-full items-center justify-center shadow-2xl z-20 transition-all duration-500 cursor-pointer 
-                        ${isCompleted 
-                          ? 'bg-gradient-to-br from-green-400 to-emerald-600 border-4 border-emerald-100 dark:border-slate-800 scale-110 shadow-emerald-500/40' 
-                          : 'bg-white dark:bg-slate-800 border-4 border-orange-100 dark:border-slate-600 hover:border-orange-300 dark:hover:border-orange-500'}`}
-                        onClick={() => toggleProgress(originalIndex)}
-                      >
-                         {isCompleted ? (
-                            <CheckCircle className="w-7 h-7 text-white" />
-                         ) : (
-                            <span className="text-slate-400 dark:text-slate-500 font-extrabold text-xl">{originalIndex + 1}</span>
-                         )}
-                      </div>
-
-                      {/* Content Card Wrapper - controls layout geometry */}
-                      <div className={`w-full lg:w-1/2 flex justify-center z-10 ${index % 2 === 0 ? 'lg:pl-20' : 'lg:pr-20'}`}>
-                        {/* Interactive Card */}
-                        <div 
-                          className={`w-full bg-white dark:bg-slate-800/80 p-6 sm:p-8 rounded-[2rem] border-2 transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden backdrop-blur-sm shadow-xl
-                          ${isCompleted 
-                            ? 'border-emerald-400/50 shadow-emerald-500/10' 
-                            : 'border-slate-100 dark:border-slate-700 hover:shadow-orange-500/20 hover:border-orange-200 dark:hover:border-orange-500/50'}`}
-                        >
-                          {/* Inner soft gradient highlight */}
-                          <div className={`absolute top-0 left-0 w-full h-1.5 transition-colors duration-300 ${isCompleted ? 'bg-emerald-400' : 'bg-gradient-to-r from-orange-500 to-red-500'}`}></div>
-
-                          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 mb-5 relative z-10">
-                            {/* Inner Card Icon */}
-                            <div className={`p-4 rounded-2xl shadow-inner transition-colors duration-300 flex-shrink-0
-                              ${isCompleted 
-                                ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' 
-                                : 'bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 group-hover:bg-orange-600 group-hover:text-white'}`}>
-                              <Icon className="w-8 h-8" />
-                            </div>
-                            
-                            <div className="flex-1 w-full">
-                               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-1">
-                                 {/* Difficulty Level Badge */}
-                                 <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold border uppercase tracking-wider ${difficulty.classes}`}>
-                                   {difficulty.label}
-                                 </span>
-                                 <span className="lg:hidden text-slate-400 text-sm font-bold">Step {originalIndex + 1}</span>
-                               </div>
-                               <h3 className="text-2xl font-bold text-slate-800 dark:text-white tracking-tight leading-tight mt-1">
-                                 {step.title}
-                               </h3>
-                               <p className="text-slate-500 dark:text-slate-400 font-medium mt-2 text-sm sm:text-base">
-                                 {step.desc}
-                               </p>
-                            </div>
-                          </div>
-                          
-                          {/* Micro-tags for step points */}
-                          <div className="mt-6 flex flex-wrap gap-2 relative z-10">
-                            {step.points.map((point, ptIdx) => (
-                              <span key={ptIdx} className={`px-3 py-1.5 text-sm font-semibold rounded-lg flex items-center gap-1.5 transition-colors duration-300
-                                ${isCompleted 
-                                  ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300' 
-                                  : 'bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 group-hover:bg-orange-50 dark:group-hover:bg-orange-900/20 group-hover:text-orange-700 dark:group-hover:text-orange-300'}`}>
-                                <div className={`w-1.5 h-1.5 rounded-full ${isCompleted ? 'bg-emerald-400' : 'bg-orange-400'}`}></div>
-                                {point}
-                              </span>
-                            ))}
-                          </div>
-                          
-                          <div className="mt-8 pt-5 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between z-10 relative">
-                            <button 
-                              onClick={() => toggleProgress(originalIndex)}
-                              className={`flex items-center gap-2 text-sm font-bold transition-colors ${
-                                isCompleted 
-                                  ? 'text-emerald-600 dark:text-emerald-400 hover:text-emerald-700' 
-                                  : 'text-slate-500 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-400'
-                              }`}
-                            >
-                              <CheckCircle className={`w-5 h-5 ${isCompleted ? 'fill-emerald-100 dark:fill-emerald-900/30' : ''}`} /> 
-                              {isCompleted ? 'Completed' : 'Mark Complete'}
-                            </button>
-                            <div className="flex items-center gap-3">
-                              <a 
-                                href="/roadmap-guide.pdf" 
-                                download 
-                                className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md shadow-orange-500/20 transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
-                                title={`Download Data PDF for ${step.title}`}
-                              >
-                                <Download size={16} />
-                                <span className="hidden sm:inline">Data PDF</span>
-                                <span className="sm:hidden">PDF</span>
-                              </a>
-                              <span className="flex items-center text-sm font-bold text-orange-600 dark:text-orange-400 hover:translate-x-1 transition-transform cursor-pointer">
-                                Resources <ChevronRight className="w-5 h-5 ml-1" />
-                              </span>
-                            </div>
-                          </div>
-
-                        </div>
-                      </div>
-
-                    </div>
-                  );
-                }) : (
-                  <div className="py-20 text-center animate-in fade-in zoom-in duration-500">
-                    <div className="w-20 h-20 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-6">
-                      <Search className="w-10 h-10 text-slate-400" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">No matching roadmaps found</h3>
-                    <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
-                      Try searching for different keywords or check out other categories.
-                    </p>
-                    <button 
-                      onClick={() => setSearchTerm && setSearchTerm('')}
-                      className="mt-8 px-6 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-bold rounded-xl transition-colors"
-                    >
-                      Clear Search
-                    </button>
-                  </div>
+        {/* Workstation Container */}
+        <div className="bg-white dark:bg-slate-800 rounded-[2rem] shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700 h-[700px] flex flex-col">
+          
+          {/* Tab Bar */}
+          <div className="bg-slate-100 dark:bg-slate-900/50 p-2 flex items-center gap-1 overflow-x-auto tabs-scroll border-b border-slate-200 dark:border-slate-700">
+            {openTabs.map((tab) => (
+              <div
+                key={tab.id}
+                onClick={() => setActiveTabId(tab.id)}
+                className={`group flex items-center gap-2 px-4 py-2 rounded-lg cursor-pointer transition-all duration-200 whitespace-nowrap text-sm font-bold min-w-[120px] max-w-[200px] ${
+                  activeTabId === tab.id
+                    ? 'bg-white dark:bg-slate-800 text-orange-600 dark:text-orange-400 shadow-sm border border-slate-200 dark:border-slate-700'
+                    : 'text-slate-500 dark:text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-800/50'
+                }`}
+              >
+                {tab.type === 'tree' ? <HomeIcon className="w-4 h-4" /> : <BookOpen className="w-4 h-4" />}
+                <span className="truncate">{tab.title}</span>
+                {tab.id !== 'root' && (
+                  <X 
+                    className="w-3.5 h-3.5 hover:text-red-500 ml-auto" 
+                    onClick={(e) => closeTab(e, tab.id)}
+                  />
                 )}
               </div>
+            ))}
+            <button className="p-2 text-slate-400 hover:text-orange-500 transition-colors">
+              <Plus className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Content Area */}
+          <div className="flex-1 overflow-y-auto p-6 relative">
+            {activeTab.type === 'tree' ? (
+              <div className="tree-container animate-slide-in">
+                <div className="mb-8 p-6 bg-orange-50 dark:bg-orange-900/20 rounded-2xl border border-orange-200 dark:border-orange-800/50 text-center max-w-xl mx-auto">
+                  <h3 className="text-xl font-bold text-orange-800 dark:text-orange-300">{selectedCategory} Master Path</h3>
+                  <p className="text-sm text-orange-600 dark:text-orange-400/80 mt-1">Start from the top and follow the branches downwards.</p>
+                </div>
+
+                <div className="relative flex flex-col items-center">
+                  {currentRoadmap.map((step, index) => {
+                    const Icon = step.icon;
+                    const isCompleted = progress.has(index);
+                    const diff = getDifficultyLevel(index, currentRoadmap.length);
+
+                    return (
+                      <div key={index} className="tree-node-wrapper w-full flex flex-col items-center">
+                        <div 
+                          className={`tree-node flex items-center gap-4 w-[350px] sm:w-[450px] relative group ${
+                            isCompleted ? 'border-emerald-500/50 bg-emerald-50/30 dark:bg-emerald-900/10' : ''
+                          }`}
+                          onClick={() => openNodeTab(step, index)}
+                        >
+                          <div className={`p-3 rounded-xl transition-colors ${
+                            isCompleted ? 'bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 group-hover:bg-orange-100 dark:group-hover:bg-orange-900/30 group-hover:text-orange-600'
+                          }`}>
+                            <Icon className="w-6 h-6" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between">
+                              <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${diff.classes}`}>
+                                {diff.label}
+                              </span>
+                              {isCompleted && <CheckCircle className="w-4 h-4 text-emerald-500" />}
+                            </div>
+                            <h4 className="font-bold text-slate-800 dark:text-white mt-1 group-hover:text-orange-600 transition-colors">{step.title}</h4>
+                          </div>
+                          <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-orange-500 group-hover:translate-x-1 transition-all" />
+                        </div>
+                        {index < currentRoadmap.length - 1 && <div className="tree-line-vertical"></div>}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <div className="animate-slide-in max-w-4xl mx-auto py-4">
+                <button 
+                  onClick={() => setActiveTabId('root')}
+                  className="flex items-center gap-2 text-sm text-slate-500 hover:text-orange-500 font-bold mb-8 transition-colors"
+                >
+                  <HomeIcon className="w-4 h-4" /> Back to Tree
+                </button>
+
+                <div className="bg-slate-50 dark:bg-slate-900/50 rounded-3xl p-8 border border-slate-200 dark:border-slate-700 shadow-inner">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+                    <div className="flex items-center gap-6">
+                      <div className="p-5 bg-orange-600 rounded-3xl text-white shadow-xl shadow-orange-600/20">
+                        {activeTab.step.icon && <activeTab.step.icon className="w-10 h-10" />}
+                      </div>
+                      <div>
+                        <h2 className="text-3xl font-black text-slate-900 dark:text-white">{activeTab.step.title}</h2>
+                        <p className="text-slate-500 dark:text-slate-400 font-medium mt-1">{activeTab.step.desc}</p>
+                      </div>
+                    </div>
+                    
+                    <button 
+                      onClick={() => toggleProgress(activeTab.index)}
+                      className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-black text-sm transition-all ${
+                        progress.has(activeTab.index)
+                          ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
+                          : 'bg-orange-600 text-white hover:bg-orange-700 shadow-lg shadow-orange-600/20'
+                      }`}
+                    >
+                      <CheckCircle className="w-5 h-5" />
+                      {progress.has(activeTab.index) ? 'Completed' : 'Mark as Done'}
+                    </button>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div className="space-y-6">
+                      <h3 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                        <Layers className="w-5 h-5 text-orange-500" />
+                        Key Learning Points
+                      </h3>
+                      <div className="space-y-3">
+                        {activeTab.step.points.map((point, i) => (
+                          <div key={i} className="flex items-center gap-3 p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 group hover:border-orange-300 transition-colors">
+                            <div className="w-2 h-2 rounded-full bg-orange-500" />
+                            <span className="font-bold text-slate-700 dark:text-slate-300">{point}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700">
+                      <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2">
+                        <Rocket className="w-5 h-5 text-orange-500" />
+                        Action Center
+                      </h3>
+                      <div className="space-y-4">
+                        <a 
+                          href="#" 
+                          className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-colors group"
+                        >
+                          <div className="flex items-center gap-3">
+                            <Download className="w-5 h-5 text-orange-500" />
+                            <span className="font-bold text-slate-700 dark:text-slate-300">Download Resources</span>
+                          </div>
+                          <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-orange-500 transition-colors" />
+                        </a>
+                        <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl border border-emerald-100 dark:border-emerald-800/50">
+                          <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
+                            <Zap className="w-4 h-4" /> Pro Tip
+                          </p>
+                          <p className="text-xs text-emerald-600 dark:text-emerald-500/80 mt-1">Focus on understanding the core concepts before moving to the next branch.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Footer of Workstation */}
+          <div className="bg-slate-50 dark:bg-slate-900/30 px-6 py-3 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+            <div className="flex items-center gap-4">
+              <span>Category: {selectedCategory}</span>
+              <span>Steps: {currentRoadmap.length}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Activity className="w-3 h-3 text-emerald-500" />
+              <span>System Status: Online</span>
             </div>
           </div>
+
         </div>
-        
       </div>
     </div>
   );

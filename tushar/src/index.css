@@ -57,3 +57,68 @@ body {
     z-index: 40;
   }
 }
+
+/* Roadmap Tree Specific Styles */
+.tree-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: 2rem 0;
+}
+
+.tree-node-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-bottom: 3rem;
+}
+
+.tree-line-vertical {
+  width: 2px;
+  background: linear-gradient(to bottom, var(--primary-theme), transparent);
+  height: 3rem;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tree-node {
+  @apply bg-white dark:bg-slate-800 p-4 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-orange-400 z-10;
+}
+
+.tab-active {
+  @apply border-b-2 border-orange-500 text-orange-600 dark:text-orange-400 font-bold;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slideInRight 0.3s ease-out forwards;
+}
+
+/* Custom Scrollbar for Tabs */
+.tabs-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+.tabs-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.tabs-scroll::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 10px;
+}
+.dark .tabs-scroll::-webkit-scrollbar-thumb {
+  background: #334155;
+}
