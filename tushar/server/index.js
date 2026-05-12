@@ -134,6 +134,24 @@ const db = new sqlite3.Database(dbFile, (err) => {
       applyLink TEXT,
       postedAt DATETIME DEFAULT CURRENT_TIMESTAMP
     )`);
+
+    // Create settings table
+    db.run(`CREATE TABLE IF NOT EXISTS settings (
+      key TEXT PRIMARY KEY,
+      value TEXT
+    )`, () => {
+      // Initialize default settings
+      db.get('SELECT value FROM settings WHERE key = ?', ['auto_refresh_jobs'], (err, row) => {
+        if (!row) {
+          db.run('INSERT INTO settings (key, value) VALUES (?, ?)', ['auto_refresh_jobs', 'false']);
+        }
+      });
+      db.get('SELECT value FROM settings WHERE key = ?', ['last_job_refresh'], (err, row) => {
+        if (!row) {
+          db.run('INSERT INTO settings (key, value) VALUES (?, ?)', ['last_job_refresh', '0']);
+        }
+      });
+    });
     
     console.log('Database tables ready');
 
@@ -602,8 +620,9 @@ app.get('/api/jobs', (req, res) => {
   });
 });
 
-// 19. Refresh Jobs via Gemini
-app.post('/api/jobs/refresh', async (req, res) => {
+// Helper to refresh jobs (reusable for manual and auto refresh)
+async function performJobRefresh() {
+  let newJobs = [];
   try {
     if (!genAI) {
       throw new Error('Gemini AI not initialized (missing API key)');
@@ -674,7 +693,7 @@ app.post('/api/jobs/refresh', async (req, res) => {
     ];
   }
 
-  try {
+  return new Promise((resolve, reject) => {
     const stmt = db.prepare(`INSERT INTO jobs (title, company, location, category, salary, type, skills, description, dayToDay, applyLink) 
                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
 
@@ -693,12 +712,71 @@ app.post('/api/jobs/refresh', async (req, res) => {
       );
     });
 
-    stmt.finalize();
-    res.json({ message: 'Jobs refreshed successfully', count: newJobs.length });
+    stmt.finalize((err) => {
+      if (err) reject(err);
+      else {
+        // Update last refresh timestamp
+        db.run('UPDATE settings SET value = ? WHERE key = ?', [Date.now().toString(), 'last_job_refresh'], () => {
+          resolve(newJobs.length);
+        });
+      }
+    });
+  });
+}
+
+// 19. Refresh Jobs via Gemini
+app.post('/api/jobs/refresh', async (req, res) => {
+  try {
+    const count = await performJobRefresh();
+    res.json({ message: 'Jobs refreshed successfully', count });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to save refreshed jobs: ' + err.message });
+    res.status(500).json({ error: 'Failed to refresh jobs: ' + err.message });
   }
 });
+
+// 20. Get Job Portal Settings
+app.get('/api/settings/jobs', (req, res) => {
+  db.all('SELECT key, value FROM settings WHERE key IN ("auto_refresh_jobs", "last_job_refresh")', (err, rows) => {
+    if (err) return res.status(400).json({ error: err.message });
+    const settings = {};
+    rows.forEach(row => {
+      settings[row.key] = row.value;
+    });
+    res.json(settings);
+  });
+});
+
+// 21. Update Job Portal Settings
+app.post('/api/settings/jobs', (req, res) => {
+  const { auto_refresh_jobs } = req.body;
+  if (auto_refresh_jobs === undefined) return res.status(400).json({ error: 'auto_refresh_jobs is required' });
+  
+  db.run('UPDATE settings SET value = ? WHERE key = ?', [auto_refresh_jobs.toString(), 'auto_refresh_jobs'], function(err) {
+    if (err) return res.status(400).json({ error: err.message });
+    res.json({ message: 'Settings updated successfully' });
+  });
+});
+
+// Background Job: 24h Refresh Check (runs every hour)
+setInterval(async () => {
+  db.get('SELECT value FROM settings WHERE key = ?', ['auto_refresh_jobs'], (err, row) => {
+    if (row && row.value === 'true') {
+      db.get('SELECT value FROM settings WHERE key = ?', ['last_job_refresh'], async (err, lastRefRow) => {
+        const lastRefresh = parseInt(lastRefRow?.value || '0');
+        const now = Date.now();
+        if (now - lastRefresh >= 24 * 60 * 60 * 1000) {
+          console.log('[Background] Starting 24h auto job refresh...');
+          try {
+            const count = await performJobRefresh();
+            console.log(`[Background] Auto-refresh completed: ${count} jobs added.`);
+          } catch (err) {
+            console.error('[Background] Auto-refresh failed:', err.message);
+          }
+        }
+      });
+    }
+  });
+}, 60 * 60 * 1000);
 
 // Start server
 app.listen(PORT, () => {

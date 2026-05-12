@@ -16,6 +16,7 @@ const Jobs = () => {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(null);
+  const [autoRefresh, setAutoRefresh] = useState(false);
 
   const fetchJobs = async (location = locationFilter) => {
     setLoading(true);
@@ -33,8 +34,21 @@ const Jobs = () => {
     }
   };
 
+  const fetchSettings = async () => {
+    try {
+      const res = await fetch('/api/settings/jobs');
+      const data = await res.json();
+      if (data.auto_refresh_jobs) {
+        setAutoRefresh(data.auto_refresh_jobs === 'true');
+      }
+    } catch (err) {
+      console.error('Error fetching settings:', err);
+    }
+  };
+
   useEffect(() => {
     fetchJobs();
+    fetchSettings();
   }, []);
 
   const handleRefresh = async () => {
@@ -49,6 +63,21 @@ const Jobs = () => {
       console.error('Error refreshing jobs:', err);
     } finally {
       setRefreshing(false);
+    }
+  };
+
+  const handleToggleAutoRefresh = async () => {
+    const newValue = !autoRefresh;
+    setAutoRefresh(newValue);
+    try {
+      await fetch('/api/settings/jobs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ auto_refresh_jobs: newValue })
+      });
+    } catch (err) {
+      console.error('Error updating settings:', err);
+      setAutoRefresh(!newValue); // Rollback
     }
   };
 
@@ -93,7 +122,24 @@ const Jobs = () => {
             </p>
           </div>
           
-          <div className="flex flex-col sm:flex-row items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center gap-6">
+            {/* Auto-Refresh Toggle */}
+            <div className="flex items-center gap-4 px-5 py-3 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm transition-all hover:shadow-md">
+              <div className="flex flex-col">
+                <span className="text-xs font-bold text-slate-700 dark:text-white flex items-center gap-2">
+                  <RefreshCw className={`w-3.5 h-3.5 text-emerald-500 ${autoRefresh ? 'animate-spin-slow' : ''}`} />
+                  Auto-Refresh
+                </span>
+                <span className="text-[9px] text-slate-500 dark:text-slate-400 font-medium tracking-tight">Every 24 Hours</span>
+              </div>
+              <button 
+                onClick={handleToggleAutoRefresh}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all duration-300 focus:outline-none ${autoRefresh ? 'bg-emerald-500 shadow-lg shadow-emerald-500/20' : 'bg-slate-200 dark:bg-slate-700'}`}
+              >
+                <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform duration-300 ${autoRefresh ? 'translate-x-6' : 'translate-x-1'}`} />
+              </button>
+            </div>
+
             <div className="flex flex-col items-end">
               {lastUpdated && (
                 <span className="text-xs text-slate-400 font-medium flex items-center gap-1 mb-1">
